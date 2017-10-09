@@ -79,6 +79,13 @@ router.post('/bandcampsetup', ensureLoggedIn, (req, res, next) => {
   getBandcampID(BCusername).then( (id) => {
     console.log(req.user)
     console.log('SUCCESS ', id)
+    User.findByIdAndUpdate({_id: req.user._id}, { bandcampID: id }, (error) => {
+      if (error) {
+        res.redirect('/bandcampsetup')
+      } else {
+        res.redirect('/home')
+      }
+    })
   })
 })
 
