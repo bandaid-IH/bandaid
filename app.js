@@ -9,6 +9,7 @@ const passport = require('passport')
 const session = require("express-session");
 const LocalStrategy = require("passport-local").Strategy
 const mongoose = require('mongoose')
+const bcrypt = require('bcrypt')
 
 const app = express();
 
@@ -73,12 +74,12 @@ passport.use(new LocalStrategy({
     }
     if (!user) {
       return next(null, false, {
-        message: "Incorrect username"
+        errorMessage: "Incorrect username"
       });
     }
     if (!bcrypt.compareSync(password, user.password)) {
       return next(null, false, {
-        message: "Incorrect password"
+        errorMessage: "Incorrect password"
       });
     }
 
