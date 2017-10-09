@@ -32,7 +32,7 @@ router.post('/signup', (req, res, next) => {
     else {
       let newUser = new User({
         username: req.body.username,
-        password: req.body.password,
+        password: hashPass,
         bandcampUsername: '',
         bandcampID: '',
         email: '',
@@ -59,16 +59,20 @@ router.get('/login', (req, res, next) => {
 })
 
 router.post('/login', passport.authenticate('local', {
-      successRedirect: '/',
-      failureRedirect: '/login',
-      failureFlash: false,
-      passReqToCallback: true
-    }));
+  successRedirect: '/home',
+  failureRedirect: '/login',
+  failureFlash: false,
+  passReqToCallback: true
+}));
 
-    // ====== Bandcamp Set-Up Page ======
-    router.get('/bandcampsetup', (req, res, next) => {
-      res.render('auth/bandcampsetup')
-    })
+// ====== Bandcamp Set-Up Page ======
+router.get('/bandcampsetup', (req, res, next) => {
+  res.render('auth/bandcampsetup')
+})
 
+// ====== Bandcamp Set-Up Page ======
+router.get('/home', (req, res, next) => {
+  res.render('home')
+})
 
-    module.exports = router;
+module.exports = router;
