@@ -78,21 +78,13 @@ router.post('/bandcampsetup', ensureLoggedIn, (req, res, next) => {
   let BCusername = req.body.bandcampUsername
   getBandcampID(BCusername)
   .then( (id) => {
-    console.log(req.user)
-    console.log('SUCCESS ', id)
     User.findByIdAndUpdate({_id: req.user._id}, { bandcampID: id }, (error) => {
       res.redirect('/home')
     })
   })
   .catch( (error) => {
-    console.log('error caught')
     res.render('auth/bandcampsetup', {errorMessage: "Couldn't find this username on Bandcamp"})
   })
-})
-
-// ====== Bandcamp Set-Up Page ======
-router.get('/home', (req, res, next) => {
-  res.render('home')
 })
 
 function getBandcampID (BCusername) {
@@ -107,5 +99,15 @@ function getBandcampID (BCusername) {
     throw error
   })
 }
+
+// ====== Bandaid User Home ======
+router.get('/home', ensureLoggedIn, (req, res, next) => {
+  res.render('home')
+})
+
+// ====== Fetching User Bandcamp feed ======
+
+
+
 
 module.exports = router;
