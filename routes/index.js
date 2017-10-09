@@ -1,7 +1,11 @@
 const express = require('express')
 const passport = require('passport')
 const bcrypt = require('bcrypt')
+const axios = require('axios')
+const qs = require('qs')
 const bcryptSalt = 10
+const connectEnsure = require('connect-ensure-login')
+const ensureLoggedIn = connectEnsure.ensureLoggedIn('/login');
 
 const User = require('../models/user')
 
@@ -66,13 +70,34 @@ router.post('/login', passport.authenticate('local', {
 }));
 
 // ====== Bandcamp Set-Up Page ======
-router.get('/bandcampsetup', (req, res, next) => {
+router.get('/bandcampsetup', ensureLoggedIn, (req, res, next) => {
   res.render('auth/bandcampsetup')
+})
+
+router.post('/bandcampsetup', ensureLoggedIn, (req, res, next) => {
+  let BCusername = req.body.bandcampUsername
+  getBandcampID(BCusername).then( (id) => {
+    console.log(req.user)
+    console.log('SUCCESS ', id)
+  })
 })
 
 // ====== Bandcamp Set-Up Page ======
 router.get('/home', (req, res, next) => {
   res.render('home')
 })
+
+function getBandcampID (BCusername) {
+  return axios.get(`https://bandcamp.com/${BCusername}`)
+  .then( (response) => {
+    let response_str = response['data']
+    let start_index = response_str.indexOf('id="follow-unfollow') + 20
+    let ID = response_str.substring(start_index, response_str.indexOf('"', start_index))
+    return ID
+  })
+  .catch( (error) => {
+    console.log(error)
+  })
+}
 
 module.exports = router;
