@@ -71,21 +71,22 @@ router.post('/login', passport.authenticate('local', {
 
 // ====== Bandcamp Set-Up Page ======
 router.get('/bandcampsetup', ensureLoggedIn, (req, res, next) => {
-  res.render('auth/bandcampsetup')
+  res.render('auth/bandcampsetup', {errorMessage: false})
 })
 
 router.post('/bandcampsetup', ensureLoggedIn, (req, res, next) => {
   let BCusername = req.body.bandcampUsername
-  getBandcampID(BCusername).then( (id) => {
+  getBandcampID(BCusername)
+  .then( (id) => {
     console.log(req.user)
     console.log('SUCCESS ', id)
     User.findByIdAndUpdate({_id: req.user._id}, { bandcampID: id }, (error) => {
-      if (error) {
-        res.redirect('/bandcampsetup')
-      } else {
-        res.redirect('/home')
-      }
+      res.redirect('/home')
     })
+  })
+  .catch( (error) => {
+    console.log('error caught')
+    res.render('auth/bandcampsetup', {errorMessage: "Couldn't find this username on Bandcamp"})
   })
 })
 
@@ -103,7 +104,7 @@ function getBandcampID (BCusername) {
     return ID
   })
   .catch( (error) => {
-    console.log(error)
+    throw error
   })
 }
 

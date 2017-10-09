@@ -1,5 +1,11 @@
 <h2>Setup</h2>
 
+<% if (errorMessage) { %>
+  <p class="error-message">
+    <%= errorMessage %>
+  </p>
+<% } %>
+
 <form action="/bandcampsetup" method="post">
   <input type="text" name="bandcampUsername" placeholder="Enter your Bandcamp username">
   <button type="submit">Submit</button>
