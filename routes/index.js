@@ -120,20 +120,41 @@ function getBandcampID(BCusername) {
 
 // ====== Bandaid User Home ======
 router.get("/home", ensureLoggedIn, (req, res, next) => {
+  getBandcampFeed(req.user.bandcampID)
+  .then(response => {
+    console.log(response)
+  });
   res.render("home");
+
+
+
 });
+
+// AlbumSchema = new Schema({
+//   title: String,
+//   albumBandcampID: String,
+//   genres: [String],
+//   artist: String,
+//   artistBandcampID: String,
+//   coverURL: String,
+//   itemURL: String,
+//   label: String,
+//   price_obj: {
+//     price: Number,
+//     currency: String
+//   }
+// });
 
 // ====== Fetching User Bandcamp feed ======
 
 // Following is Eduardo's code with fan_id replaced
 
-async function main() {
+async function getBandcampFeed(bandcampID) {
   try {
     const a = await axios.post(
       "https://bandcamp.com/fan_dash_feed_updates",
       qs.stringify({
-        // fan_id: 2079572,
-        fan_id: 2079572,
+        fan_id: bandcampID,
         // older_than: 1483605566
       }),
       {
@@ -144,13 +165,10 @@ async function main() {
         }
       }
     );
-
-    console.log(a.data.stories.entries);
+    return a.data.stories.entries;
   } catch (err) {
-    console.log(err);
+    throw err;
   }
 }
-
-main();
 
 module.exports = router;
