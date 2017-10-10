@@ -7,10 +7,8 @@ storySchema = new Schema({
   fanBandcampID: String,
   buyCount: Number,
   type: String,
-  album: {
-    type: Schema.Types.ObjectId,
-    ref: 'Album'
-  }
+  album: String,
+  user: String
 });
 
 

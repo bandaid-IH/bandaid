@@ -131,63 +131,69 @@ router.get("/home", ensureLoggedIn, (req, res, next) => {
   getBandcampFeed(req.user.bandcampID)
     .then(feed_array => {
       feed_array.forEach(entry => {
-        let newAlbum = new Album({
-          title: entry.album_title,
-          albumBandcampID: entry.album_id,
-          // genres: entry.tags,
-          artist: entry.band_name,
-          artistBandcampID: entry.band_id,
-          coverURL: entry.item_art_url,
-          itemURL: entry.item_url,
-          label: entry.label,
-          price_obj: {
-            price: entry.price,
-            currency: entry.currency
-          }
+        let newStory = new Story({
+          date: entry.story_date,
+          fanBandcampID: entry.fan_id,
+          buyCount: entry.also_collected_count,
+          type: entry.story_type,
+          album: entry.album_id,
+          user: req.user._id
         });
-        // console.log(newAlbum)
-        Album.findOne(
+        console.log(newStory);
+        Story.findOne(
           {
-            albumBandcampID: entry.album_id
+            fanBandcampID: entry.fan_id,
+            album: entry.album_id,
+            user: req.user._id
           },
-          (err, album) => {
-            // console.log(entry.album_id, newAlbum.albumBandcampID)
+          (err, story) => {
             if (err) {
               throw err;
             } else {
-              if (album) {
-                console.log("Album already exists");
+              if (story) {
+                console.log("Story already exists");
               } else {
-                newAlbum.save(error => {
-                  if (error) console.log("*** SAVING NEW ALBUM ERROR ", error);
-                  else console.log("album saved");
+                newStory.save(error => {
+                  if (error)
+                    console.log("*** SAVING NEW STORY ERROR", error);
+                  else console.log("story saved");
                 });
-                console.log(newAlbum._id);
-                let newStory = new Story({
-                  date: entry.story_date,
-                  fanBandcampID: entry.fan_id,
-                  buyCount: entry.also_collected_count,
-                  type: entry.story_type,
-                  album: newAlbum._id
+                let genre = entry.tags.map((tag) => {
+                  return tag.name;
                 });
-                console.log(newStory);
-                Story.findOne(
+                console.log(genre);
+                let newAlbum = new Album({
+                  title: entry.album_title,
+                  albumBandcampID: entry.album_id,
+                  genres: genre,
+                  artist: entry.band_name,
+                  artistBandcampID: entry.band_id,
+                  coverURL: entry.item_art_url,
+                  itemURL: entry.item_url,
+                  label: entry.label,
+                  price_obj: {
+                    price: entry.price,
+                    currency: entry.currency
+                  }
+                });
+                // console.log(newAlbum)
+                Album.findOne(
                   {
-                    fanBandcampID: entry.fan_id,
-                    album: newAlbum._id
+                    albumBandcampID: entry.album_id
                   },
-                  (err, story) => {
+                  (err, album) => {
+                    // console.log(entry.album_id, newAlbum.albumBandcampID)
                     if (err) {
                       throw err;
                     } else {
-                      if (story) {
-                        console.log("Story already exists");
+                      if (album) {
+                        console.log("Album already exists");
                       } else {
-                        newStory.save(error => {
-                          if (error)
-                            console.log("*** SAVING NEW STORY ERROR", error);
-                          else console.log("story saved");
+                        newAlbum.save(error => {
+                          if (error) console.log("*** SAVING NEW ALBUM ERROR ", error);
+                          else console.log("album saved");
                         });
+                        console.log(newAlbum._id);
                       }
                     }
                   }
