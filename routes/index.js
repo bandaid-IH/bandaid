@@ -54,7 +54,10 @@ router.post("/signup", (req, res, next) => {
               errorMessage: "Something went wrong"
             });
           else {
-            res.redirect("/bandcampsetup");
+            console.log("redirection after signup");
+            passport.authenticate("local")(req, res, () => {
+              res.redirect("/bandcampsetup");
+            });
           }
         });
       }
@@ -139,7 +142,7 @@ router.get("/home", ensureLoggedIn, (req, res, next) => {
           album: entry.album_id,
           user: req.user._id
         });
-        console.log(newStory);
+        // console.log(newStory);
         Story.findOne(
           {
             fanBandcampID: entry.fan_id,
@@ -154,14 +157,12 @@ router.get("/home", ensureLoggedIn, (req, res, next) => {
                 console.log("Story already exists");
               } else {
                 newStory.save(error => {
-                  if (error)
-                    console.log("*** SAVING NEW STORY ERROR", error);
+                  if (error) console.log("*** SAVING NEW STORY ERROR", error);
                   else console.log("story saved");
                 });
-                let genre = entry.tags.map((tag) => {
+                let genre = entry.tags.map(tag => {
                   return tag.name;
                 });
-                console.log(genre);
                 let newAlbum = new Album({
                   title: entry.album_title,
                   albumBandcampID: entry.album_id,
@@ -176,13 +177,11 @@ router.get("/home", ensureLoggedIn, (req, res, next) => {
                     currency: entry.currency
                   }
                 });
-                // console.log(newAlbum)
                 Album.findOne(
                   {
                     albumBandcampID: entry.album_id
                   },
                   (err, album) => {
-                    // console.log(entry.album_id, newAlbum.albumBandcampID)
                     if (err) {
                       throw err;
                     } else {
@@ -190,7 +189,8 @@ router.get("/home", ensureLoggedIn, (req, res, next) => {
                         console.log("Album already exists");
                       } else {
                         newAlbum.save(error => {
-                          if (error) console.log("*** SAVING NEW ALBUM ERROR ", error);
+                          if (error)
+                            console.log("*** SAVING NEW ALBUM ERROR ", error);
                           else console.log("album saved");
                         });
                         console.log(newAlbum._id);
@@ -203,9 +203,7 @@ router.get("/home", ensureLoggedIn, (req, res, next) => {
           }
         );
       });
-      res.render("home", {
-        errorMessage: false
-      });
+      constructFeed(req.user._id);
     })
     .catch(err => {
       console.log("error", err);
@@ -236,6 +234,19 @@ async function getBandcampFeed(bandcampID) {
   } catch (err) {
     throw err;
   }
+}
+
+function constructFeed(id) {
+  Story.find({ user: id }, (error, stories) => {
+    let albums = [];
+    stories.forEach((story) => {
+      Album.find({ albumBandcampID: story.album }, (error, album) => {
+        albums.push(album[0]);
+        // console.log("I am inside the forEach : ", albums);
+      });
+    });
+  });
+  console.log(albums);
 }
 
 module.exports = router;
