@@ -199,7 +199,7 @@ router.get("/home", ensureLoggedIn, (req, res, next) => {
         );
       });
       constructFeed(req.user._id).then((result) => {
-        console.log('ITS WORKING', result)
+        console.log('ITS WORKINGGGGGGGG', result)
       });
     })
     .catch(err => {
@@ -235,20 +235,14 @@ async function getBandcampFeed(bandcampID) {
 function constructFeed(id) {
   return Story.find({
     user: id
-  }, (error, stories) => {
-    let promises = []
-    stories.forEach((story) => {
-      let promise = Album.find({
+  }).then(stories => {
+    const promises = stories.map((story) => Album.find({
         albumBandcampID: story.album
-      }, (err, album) => {
-        return album
-      })
-      promises.push(promise)
-    })
-    Promise.all(promises).then(result => {
+    }))
+    return Promise.all(promises).then(result => {
       return result
     })
-  });
+  })
 };
 
 
