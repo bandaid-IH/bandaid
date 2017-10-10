@@ -198,8 +198,11 @@ router.get("/home", ensureLoggedIn, (req, res, next) => {
           }
         );
       });
-      constructFeed(req.user._id).then((result) => {
-        console.log('ITS WORKINGGGGGGGG', result)
+      constructFeed(req.user._id).then((albums) => {
+        res.render('home', {
+          albums: albums[0],
+          errorMessage: false
+        })
       });
     })
     .catch(err => {
@@ -237,7 +240,7 @@ function constructFeed(id) {
     user: id
   }).then(stories => {
     const promises = stories.map((story) => Album.find({
-        albumBandcampID: story.album
+      albumBandcampID: story.album
     }))
     return Promise.all(promises).then(result => {
       return result
