@@ -8,6 +8,7 @@ const connectEnsure = require("connect-ensure-login");
 const ensureLoggedIn = connectEnsure.ensureLoggedIn("/login");
 
 const User = require("../models/user");
+const Album = require("../models/album");
 
 const router = express.Router();
 
@@ -121,29 +122,30 @@ function getBandcampID(BCusername) {
 // ====== Bandaid User Home ======
 router.get("/home", ensureLoggedIn, (req, res, next) => {
   getBandcampFeed(req.user.bandcampID)
-  .then(response => {
-    console.log(response)
-  });
-  res.render("home");
-
-
-
+  .then(feed_array => {
+    feed_array.forEach(entry => {
+      newAlbum = new Album({
+        title: entry.album_title,
+        albumBandcampID: entry.album_id,
+        genres: entry.tags,
+        artist: entry.band_name,
+        artistBandcampID: entry.band_id,
+        coverURL: entry.item_art_url,
+        itemURL: entry.item_url,
+        label: entry.label,
+        price_obj: {
+          price: entry.price,
+          currency: entry.currency
+        }
+      });
+      Album.findOne({ albumBandcampID: entry.album_id }, (err, user) => {
+        if (err) newAlbum.save();
+        else console.log("Album already exists");
+      })
+    });
+  }).catch(err => { console.log("error", err) })
+  res.render("home")
 });
-
-// AlbumSchema = new Schema({
-//   title: String,
-//   albumBandcampID: String,
-//   genres: [String],
-//   artist: String,
-//   artistBandcampID: String,
-//   coverURL: String,
-//   itemURL: String,
-//   label: String,
-//   price_obj: {
-//     price: Number,
-//     currency: String
-//   }
-// });
 
 // ====== Fetching User Bandcamp feed ======
 
@@ -154,7 +156,7 @@ async function getBandcampFeed(bandcampID) {
     const a = await axios.post(
       "https://bandcamp.com/fan_dash_feed_updates",
       qs.stringify({
-        fan_id: bandcampID,
+        fan_id: bandcampID
         // older_than: 1483605566
       }),
       {

@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-AlbumSchema = new Schema({
+albumSchema = new Schema({
   title: String,
   albumBandcampID: String,
   genres: [String],
