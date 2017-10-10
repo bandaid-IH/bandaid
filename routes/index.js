@@ -29,8 +29,7 @@ router.post("/signup", (req, res, next) => {
   let salt = bcrypt.genSaltSync(bcryptSalt);
   let hashPass = bcrypt.hashSync(req.body.password, salt);
 
-  User.findOne(
-    {
+  User.findOne({
       username: req.body.username
     },
     (error, user) => {
@@ -93,11 +92,9 @@ router.post("/bandcampsetup", ensureLoggedIn, (req, res, next) => {
   let BCusername = req.body.bandcampUsername;
   getBandcampID(BCusername)
     .then(id => {
-      User.findByIdAndUpdate(
-        {
+      User.findByIdAndUpdate({
           _id: req.user._id
-        },
-        {
+        }, {
           bandcampID: id
         },
         error => {
@@ -143,8 +140,7 @@ router.get("/home", ensureLoggedIn, (req, res, next) => {
           user: req.user._id
         });
         // console.log(newStory);
-        Story.findOne(
-          {
+        Story.findOne({
             fanBandcampID: entry.fan_id,
             album: entry.album_id,
             user: req.user._id
@@ -177,8 +173,7 @@ router.get("/home", ensureLoggedIn, (req, res, next) => {
                     currency: entry.currency
                   }
                 });
-                Album.findOne(
-                  {
+                Album.findOne({
                     albumBandcampID: entry.album_id
                   },
                   (err, album) => {
@@ -203,7 +198,9 @@ router.get("/home", ensureLoggedIn, (req, res, next) => {
           }
         );
       });
-      constructFeed(req.user._id);
+      constructFeed(req.user._id).then((result) => {
+        console.log('ITS WORKING', result)
+      });
     })
     .catch(err => {
       console.log("error", err);
@@ -221,11 +218,9 @@ async function getBandcampFeed(bandcampID) {
       qs.stringify({
         fan_id: bandcampID
         // older_than: 1483605566
-      }),
-      {
+      }), {
         headers: {
-          Cookie:
-            "client_id=066071D749E770DABEDA6A53D3D59BAEE19651A0DCE19E0A8A667F165E24FDBF; unique_24h=223; want_https=1; identity=6%09efbc233f4349282ad61de8f592ab1fda%09%7B%22id%22%3A4147611151%2C%22h1%22%3A%22819f670ef1890f499a5c62baa315ffb8%22%2C%22ex%22%3A0%7D; session=1%09t%3A1507291939%09r%3A%5B%22261569836S0c0x1507292079%22%2C%22241753119x0c0x1507292003%22%2C%2218185G0f0x1507291939%22%5D; fan_visits=503214; BACKENDID=bender06-1",
+          Cookie: "client_id=066071D749E770DABEDA6A53D3D59BAEE19651A0DCE19E0A8A667F165E24FDBF; unique_24h=223; want_https=1; identity=6%09efbc233f4349282ad61de8f592ab1fda%09%7B%22id%22%3A4147611151%2C%22h1%22%3A%22819f670ef1890f499a5c62baa315ffb8%22%2C%22ex%22%3A0%7D; session=1%09t%3A1507291939%09r%3A%5B%22261569836S0c0x1507292079%22%2C%22241753119x0c0x1507292003%22%2C%2218185G0f0x1507291939%22%5D; fan_visits=503214; BACKENDID=bender06-1",
           "Content-type": "application/x-www-form-urlencoded"
         }
       }
@@ -236,17 +231,25 @@ async function getBandcampFeed(bandcampID) {
   }
 }
 
+
 function constructFeed(id) {
-  Story.find({ user: id }, (error, stories) => {
-    let albums = [];
+  return Story.find({
+    user: id
+  }, (error, stories) => {
+    let promises = []
     stories.forEach((story) => {
-      Album.find({ albumBandcampID: story.album }, (error, album) => {
-        albums.push(album[0]);
-        // console.log("I am inside the forEach : ", albums);
-      });
-    });
+      let promise = Album.find({
+        albumBandcampID: story.album
+      }, (err, album) => {
+        return album
+      })
+      promises.push(promise)
+    })
+    Promise.all(promises).then(result => {
+      return result
+    })
   });
-  console.log(albums);
-}
+};
+
 
 module.exports = router;
