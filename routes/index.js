@@ -242,9 +242,7 @@ function constructFeed(id) {
     const promises = stories.map((story) => Album.find({
       albumBandcampID: story.album
     }))
-    return Promise.all(promises).then(result => {
-      return result
-    })
+    return Promise.all(promises)
   })
 };
 
