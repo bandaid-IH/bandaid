@@ -28,8 +28,7 @@ router.post("/signup", (req, res, next) => {
   let salt = bcrypt.genSaltSync(bcryptSalt);
   let hashPass = bcrypt.hashSync(req.body.password, salt);
 
-  User.findOne(
-    {
+  User.findOne({
       username: req.body.username
     },
     (error, user) => {
@@ -80,16 +79,20 @@ router.post(
 
 // ====== Bandcamp Set-Up Page ======
 router.get("/bandcampsetup", ensureLoggedIn, (req, res, next) => {
-  res.render("auth/bandcampsetup", { errorMessage: false });
+  res.render("auth/bandcampsetup", {
+    errorMessage: false
+  });
 });
 
 router.post("/bandcampsetup", ensureLoggedIn, (req, res, next) => {
   let BCusername = req.body.bandcampUsername;
   getBandcampID(BCusername)
     .then(id => {
-      User.findByIdAndUpdate(
-        { _id: req.user._id },
-        { bandcampID: id },
+      User.findByIdAndUpdate({
+          _id: req.user._id
+        }, {
+          bandcampID: id
+        },
         error => {
           res.redirect("/home");
         }
@@ -122,30 +125,49 @@ function getBandcampID(BCusername) {
 // ====== Bandaid User Home ======
 router.get("/home", ensureLoggedIn, (req, res, next) => {
   getBandcampFeed(req.user.bandcampID)
-  .then(feed_array => {
-    feed_array.forEach(entry => {
-      newAlbum = new Album({
-        title: entry.album_title,
-        albumBandcampID: entry.album_id,
-        genres: entry.tags,
-        artist: entry.band_name,
-        artistBandcampID: entry.band_id,
-        coverURL: entry.item_art_url,
-        itemURL: entry.item_url,
-        label: entry.label,
-        price_obj: {
-          price: entry.price,
-          currency: entry.currency
-        }
-      });
-      Album.findOne({ albumBandcampID: entry.album_id }, (err, user) => {
-        if (err) newAlbum.save();
-        else console.log("Album already exists");
+    .then(feed_array => {
+      feed_array.forEach(entry => {
+        let newAlbum = new Album({
+          title: entry.album_title,
+          albumBandcampID: entry.album_id,
+          // genres: entry.tags,
+          artist: entry.band_name,
+          artistBandcampID: entry.band_id,
+          coverURL: entry.item_art_url,
+          itemURL: entry.item_url,
+          label: entry.label,
+          price_obj: {
+            price: entry.price,
+            currency: entry.currency
+          }
+        });
+        // console.log(newAlbum)
+        Album.findOne({
+          albumBandcampID: entry.album_id
+        }, (err, album) => {
+          // console.log(entry.album_id, newAlbum.albumBandcampID)
+          if (err) {
+            throw err
+          } else {
+            if (album) {
+              console.log("Album already exists")
+            } 
+            else {
+              newAlbum.save((error) => {
+                if (error) console.log('*** SAVING NEW ALBUM ERROR ', error)
+                else console.log('album saved')
+              })
+            }
+          }
+        })
       })
-    });
-  }).catch(err => { console.log("error", err) })
-  res.render("home")
-});
+      res.render("home", {
+        errorMessage: false
+      })
+    }).catch(err => {
+      console.log("error", err)
+    })
+})
 
 // ====== Fetching User Bandcamp feed ======
 
@@ -158,11 +180,9 @@ async function getBandcampFeed(bandcampID) {
       qs.stringify({
         fan_id: bandcampID
         // older_than: 1483605566
-      }),
-      {
+      }), {
         headers: {
-          Cookie:
-            "client_id=066071D749E770DABEDA6A53D3D59BAEE19651A0DCE19E0A8A667F165E24FDBF; unique_24h=223; want_https=1; identity=6%09efbc233f4349282ad61de8f592ab1fda%09%7B%22id%22%3A4147611151%2C%22h1%22%3A%22819f670ef1890f499a5c62baa315ffb8%22%2C%22ex%22%3A0%7D; session=1%09t%3A1507291939%09r%3A%5B%22261569836S0c0x1507292079%22%2C%22241753119x0c0x1507292003%22%2C%2218185G0f0x1507291939%22%5D; fan_visits=503214; BACKENDID=bender06-1",
+          Cookie: "client_id=066071D749E770DABEDA6A53D3D59BAEE19651A0DCE19E0A8A667F165E24FDBF; unique_24h=223; want_https=1; identity=6%09efbc233f4349282ad61de8f592ab1fda%09%7B%22id%22%3A4147611151%2C%22h1%22%3A%22819f670ef1890f499a5c62baa315ffb8%22%2C%22ex%22%3A0%7D; session=1%09t%3A1507291939%09r%3A%5B%22261569836S0c0x1507292079%22%2C%22241753119x0c0x1507292003%22%2C%2218185G0f0x1507291939%22%5D; fan_visits=503214; BACKENDID=bender06-1",
           "Content-type": "application/x-www-form-urlencoded"
         }
       }
