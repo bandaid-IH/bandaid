@@ -7,7 +7,9 @@ const userSchema = new Schema({
   bandcampUsername: String,
   bandcampID: String,
   email: String,
-  favoriteArtists: String
+  favoriteArtists: String,
+  listenList: [String],
+  toBuyList: [String]
 })
 
 const User = mongoose.model('User', userSchema)
