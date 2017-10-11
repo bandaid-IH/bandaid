@@ -3,6 +3,12 @@ Album <%=index + 1%> out of <%=listenListLength%> in your Listen List
 <br>
 <br>
 <%tracks.forEach( (track) => {%>
+  <br>
   <%=track.title%>
+  <br>
+  <audio controls="controls"
+  src="<%=track.file['mp3-128']%>">
+  Your browser does not support the <code>audio</code> element.
+  </audio>
   <br>
 <%})%>
