@@ -24,8 +24,12 @@ a {
   width: 150px;
 }
 
-
 #listen-mode .arrow img, #listen-mode .arrow a {
   width: 50px;
   height: 50px;
 }
+
+#sucks, #rocks {
+  width: 50px;
+  height: 50px
+} 

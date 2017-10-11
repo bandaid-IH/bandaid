@@ -13,6 +13,13 @@
     <br>
     <img src="<%=currentAlbum.coverURL%>" alt="Album cover">
     <br>
+    <a href="listen/<%=index + 2%>/sucks">
+      <img id='sucks' src="/images/cross.svg" alt="Sucks">
+    </a>
+    <a href="listen/<%=index + 2%>/rocks">
+      <img id='rocks' src="/images/tick.svg" alt="Rocks">
+    </a>
+    <br>
     <%tracks.forEach( (track) => {%>
       <br>
       <%=track.title%>
