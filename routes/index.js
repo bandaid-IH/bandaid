@@ -171,7 +171,7 @@ router.get("/home", ensureLoggedIn, (req, res, next) => {
               if (album) console.log("Album already exists")
               else {
                 newAlbum.save()
-                .then( console.log('Album saved', newAlbum._id));
+                  .then(console.log('Album saved', newAlbum._id));
               }
             });
           }
@@ -195,37 +195,53 @@ router.get("/home", ensureLoggedIn, (req, res, next) => {
 // ADD INSURE LOGGED IN WHEN DONE WITH TESTINGx
 
 // https://bandcamp.com/EmbeddedPlayer/v=2/album=1167778992/size=large/tracklist=true/artwork=small/
-router.get('/listen', (req, res, next) => {
-  res.render('listenPage', {
-    listenList: [
-      [{
-        _id: '59dcd37be32e431b1999dca3',
-        title: 'Ivrjèn',
-        albumBandcampID: '2429722687',
-        artist: 'Torba',
-        artistBandcampID: '3935990010',
-        coverURL: 'http://f4.bcbits.com/img/a1078811021_9.jpg',
-        itemURL: 'http://conjuntovacio.bandcamp.com/album/ivrj-n',
-        label: null,
-        __v: 0,
-        price_obj: [Object],
-        genres: [Array]
-      }],
-      [{
-        _id: '59dcd37be32e431b1999dca4',
-        title: 'Repeating',
-        albumBandcampID: '2418784641',
-        artist: 'Videoblu',
-        artistBandcampID: '3935990010',
-        coverURL: 'http://f4.bcbits.com/img/a1140095599_9.jpg',
-        itemURL: 'http://conjuntovacio.bandcamp.com/album/repeating',
-        label: null,
-        __v: 0,
-        price_obj: [Object],
-        genres: [Array]
-      }]
-    ]
+router.get('/listen/:num', (req, res, next) => {
+  let index = req.params.num - 1
+  let listenList = [
+    [{
+      _id: '59dcd37be32e431b1999dca3',
+      title: 'Ivrjèn',
+      albumBandcampID: '2429722687',
+      artist: 'Torba',
+      artistBandcampID: '3935990010',
+      coverURL: 'http://f4.bcbits.com/img/a1078811021_9.jpg',
+      itemURL: 'http://conjuntovacio.bandcamp.com/album/ivrj-n',
+      label: null,
+      __v: 0,
+      price_obj: [Object],
+      genres: [Array]
+    }],
+    [{
+      _id: '59dcd37be32e431b1999dca4',
+      title: 'Repeating',
+      albumBandcampID: '2418784641',
+      artist: 'Videoblu',
+      artistBandcampID: '3935990010',
+      coverURL: 'http://f4.bcbits.com/img/a1140095599_9.jpg',
+      itemURL: 'http://conjuntovacio.bandcamp.com/album/repeating',
+      label: null,
+      __v: 0,
+      price_obj: [Object],
+      genres: [Array]
+    }]
+  ]
+  let currentAlbum = listenList[index][0]
+  let albumBandcampID = currentAlbum.albumBandcampID
+  let album_URL = `https://bandcamp.com/EmbeddedPlayer/v=2/album=${albumBandcampID}/size=large/tracklist=true/artwork=small/`
+  axios.get(album_URL)
+  .then(function (response) {
+    let HTML = response.data
+    let musicPlayerData = JSON.parse(HTML.match(/var\s*playerdata\s*=\s*(.+);/)[1]);
+    console.log(musicPlayerData.tracks)
+    res.render('listenPage', {
+      index,
+      listenListLength: listenList.length,
+      tracks: musicPlayerData.tracks
+    })
   })
+  .catch(function (error) {
+    console.log(error);
+  });
 })
 
 

@@ -1,1 +1,8 @@
 <h2>Listen Mode</h2>
+Album <%=index + 1%> out of <%=listenListLength%> in your Listen List
+<br>
+<br>
+<%tracks.forEach( (track) => {%>
+  <%=track.title%>
+  <br>
+<%})%>
