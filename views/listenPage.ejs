@@ -6,39 +6,39 @@
     </a>
   </div>
   <%}%>
-  <div class="column is-two-thirds is-narrow">
+  <div class="column is-two-thirds is-narrow main">
     <h2>Listen Mode</h2>
     <h2>
       <%=currentAlbum.title %>, By <%=currentAlbum.artist %>
     </h2>
     Album <%=index + 1%> out of <%=listenListLength%> in your Listen List
-    <br>
-    <br>
-    <img src="<%=currentAlbum.coverURL%>" alt="Album cover">
-    <br>
-    <a href="listen/<%=index + 2%>/sucks">
-      <img id='sucks' src="/images/cross.svg" alt="Sucks">
-    </a>
-    <a href="listen/<%=index + 2%>/rocks">
-      <img id='rocks' src="/images/tick.svg" alt="Rocks">
-    </a>
+    <div class='cover'>
+      <img src="<%=currentAlbum.coverURL%>" alt="Album cover">
+    </div>
+    <div class='user-feedback'>
+      <a href="listen/<%=index + 2%>/sucks">
+        <img id='sucks' src="/images/cross.svg" alt="Sucks">
+      </a>
+      <a href="listen/<%=index + 2%>/rocks">
+        <img id='rocks' src="/images/tick.svg" alt="Rocks">
+      </a>
+    </div>
     <br>
     <%tracks.forEach( (track) => {%>
-      <br>
-      <%=track.title%>
-      <br>
-      <audio controls="controls"
-      src="<%=track.file['mp3-128']%>">
-      Your browser does not support the <code>audio</code> element.
-      </audio>
-      <br>
+      <div class='track'>
+        <p><%=track.title%></p>
+        <audio controls="controls" controlsList="nodownload"
+        src="<%=track.file['mp3-128']%>">
+        Your browser does not support the <code>audio</code> element.
+        </audio>
+      </div>
     <%})%>
   </div>
-  <% if (displayArrows.next ) {%>
+  <!--  if (displayArrows.next ) { -->
   <div class="arrow column is-one-third is-narrow">
       <a href="/listen/<%=index + 2%>">
         <img id='next' src="/images/next.svg" alt="Next album">
       </a>
   </div>
-  <%}%>
+  <!-- } -->
 </div>

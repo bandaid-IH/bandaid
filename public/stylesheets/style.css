@@ -1,8 +1,13 @@
+html {
+  height: 100vh;
+  background-color: rgb(225, 232, 232);
+}
+
 body {
+  margin: 0px 100px;
   padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-  background-color: rgb(217, 251, 255);
-  height: 100vh;
+  background-color: rgb(218, 221, 222);
 }
 
 a {
@@ -11,25 +16,68 @@ a {
 
 
 /* Listen Mode Styling */
-#listen-mode {
-  background-color: rgb(217, 251, 255);
-}
-
-#listen-mode audio {
-  width: 200px;
-  height: 50px;
-}
-
 #listen-mode .arrow {
   width: 150px;
 }
 
-#listen-mode .arrow img, #listen-mode .arrow a {
+#listen-mode div {
+  display: flex;
+  flex-direction: column;
+  align-items: center
+}
+
+#listen-mode .cover {
+  width: 500px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px 0px;
+}
+
+#listen-mode .cover img {
+  width: 400px;
+}
+
+#listen-mode .user-feedback {
+  width: 500px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-content: center;
+  margin-bottom: 15px;
+}
+
+#listen-mode .user-feedback a {
   width: 50px;
   height: 50px;
+  margin: 0px 50px;
 }
 
 #sucks, #rocks {
   width: 50px;
   height: 50px
 } 
+
+#listen-mode .arrow img, #listen-mode .arrow a {
+  width: 50px;
+  height: 50px;
+}
+
+#listen-mode .track {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 480px;
+  justify-content: center;
+}
+
+#listen-mode .track p {
+  margin-right: 20px;
+}
+
+#listen-mode .track audio {
+  width: 300px;
+  margin: 4px;
+  margin-left: auto;
+}
+
