@@ -229,20 +229,31 @@ router.get('/listen/:num', (req, res, next) => {
   let albumBandcampID = currentAlbum.albumBandcampID
   let album_URL = `https://bandcamp.com/EmbeddedPlayer/v=2/album=${albumBandcampID}/size=large/tracklist=true/artwork=small/`
   axios.get(album_URL)
-  .then(function (response) {
-    let HTML = response.data
-    let musicPlayerData = JSON.parse(HTML.match(/var\s*playerdata\s*=\s*(.+);/)[1]);
-    console.log(musicPlayerData.tracks)
-    res.render('listenPage', {
-      index,
-      currentAlbum,
-      listenListLength: listenList.length,
-      tracks: musicPlayerData.tracks
+    .then(function (response) {
+      let HTML = response.data
+      let musicPlayerData = JSON.parse(HTML.match(/var\s*playerdata\s*=\s*(.+);/)[1]);
+      console.log(musicPlayerData.tracks)
+
+      // This part either displays or not the arrows, depending on the user's postion
+      // in the Listen List
+      let displayArrows = {
+        prev: true,
+        next: true
+      }
+      if (index === 0) displayArrows.prev = false
+      if (index === listenList.length - 1) displayArrows.next = false
+
+      res.render('listenPage', {
+        index,
+        currentAlbum,
+        listenListLength: listenList.length,
+        tracks: musicPlayerData.tracks,
+        displayArrows
+      })
     })
-  })
-  .catch(function (error) {
-    console.log(error);
-  });
+    .catch((error) => {
+      console.log(error)
+    })
 })
 
 

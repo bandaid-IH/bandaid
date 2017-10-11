@@ -1,7 +1,11 @@
 <div id='listen-mode' class="columns">
+  <% if (displayArrows.prev ) {%>
   <div class="arrow column is-one-third">
-    <img src="/images/previous.svg" alt="Previous album">
+    <a href="/listen/<%=index%>">
+      <img id='prev' src="/images/previous.svg" alt="Previous album">
+    </a>
   </div>
+  <%}%>
   <div class="column is-two-thirds is-narrow">
     <h2>Listen Mode</h2>
     Album <%=index + 1%> out of <%=listenListLength%> in your Listen List
@@ -20,7 +24,11 @@
       <br>
     <%})%>
   </div>
+  <% if (displayArrows.next ) {%>
   <div class="arrow column is-one-third is-narrow">
-      <img src="/images/next.svg" alt="Next album">
+      <a href="/listen/<%=index + 2%>">
+        <img id='next' src="/images/next.svg" alt="Next album">
+      </a>
   </div>
+  <%}%>
 </div>
