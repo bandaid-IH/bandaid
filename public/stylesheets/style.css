@@ -1,6 +1,8 @@
 body {
   padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  background-color: rgb(217, 251, 255);
+  height: 100vh;
 }
 
 a {
@@ -9,6 +11,9 @@ a {
 
 
 /* Listen Mode Styling */
+#listen-mode {
+  background-color: rgb(217, 251, 255);
+}
 
 #listen-mode audio {
   width: 200px;
