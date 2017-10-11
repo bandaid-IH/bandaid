@@ -3,13 +3,39 @@ const passport = require("passport");
 const bcrypt = require("bcrypt");
 const axios = require("axios");
 const qs = require("qs");
+const SpotifyWebApi = require('spotify-web-api-node')
+
 const bcryptSalt = 10;
 const connectEnsure = require("connect-ensure-login");
 const ensureLoggedIn = connectEnsure.ensureLoggedIn("/login");
 
+// ======================================
+//          Importing Data Models
+// ======================================
 const User = require("../models/user");
 const Album = require("../models/album");
 const Story = require("../models/story");
+
+
+// ======================================
+//          Setting-up Spotify 
+// ======================================
+const client_id = 'fb0f83f7ed6e45f5a3c7729074b4e8dc'
+const client_secret = '784c6f633f204ac690a897d9d11ee1f8'
+
+const spotifyApi = new SpotifyWebApi({
+  clientId: client_id,
+  clientSecret: client_secret
+})
+
+spotifyApi.clientCredentialsGrant()
+  .then((data) => {
+    spotifyApi.setAccessToken(data.body['access_token'])
+  }, (err) => {
+    console.log('Something went wrong when retrieving an access token', err)
+  })
+
+
 
 const router = express.Router();
 
@@ -243,6 +269,16 @@ router.get('/listen/:num', (req, res, next) => {
       if (index === 0) displayArrows.prev = false
       if (index === listenList.length - 1) displayArrows.next = false
 
+      // Function to alert the user if the album is on spotify,
+      // it is called with a test object for now
+      SpotifyTestFunc({
+          artist: 'lord echo',
+          title: 'melodies'
+        })
+        .then((link) => {
+          console.log("LINK - FROM INSIDE THE ROUTE ", link)
+        })
+
       res.render('listenPage', {
         index,
         currentAlbum,
@@ -292,6 +328,33 @@ function constructFeed(id) {
     );
     return Promise.all(promises);
   });
+}
+
+
+function SpotifyTestFunc(requestedAlbum) {
+
+  return spotifyApi.searchArtists(requestedAlbum.artist)
+    .then((searchResult) => searchResult.body.artists.items)
+    .then((artists) => {
+      const promises = artists.map(artist => {
+        spotifyApi.getArtistAlbums(artist.id).then((searchResult) => searchResult.body.items)
+          .then((albums) => {
+            const promises = albums.map((album) => {
+              if (album.name.toLowerCase() === requestedAlbum.title.toLowerCase()) {
+                console.log('FOUND IT ', album.name)
+                console.log('LINK ', album.external_urls.spotify)
+                return album.external_urls.spotify
+              }
+            })
+          })
+      })
+      return Promise.all(promises)
+    })
+    .catch((error) => {
+      console.log(error)
+    })
+
+
 }
 
 module.exports = router;
