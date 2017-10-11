@@ -128,6 +128,8 @@ function getBandcampID(BCusername) {
 router.get("/home", ensureLoggedIn, (req, res, next) => {
   getBandcampFeed(req.user.bandcampID)
     .then(feed_array => {
+      console.log(feed_array)
+      // console.log(feed_array[3])
       feed_array.forEach(entry => {
         let newStory = new Story({
           date: entry.story_date,
@@ -145,10 +147,7 @@ router.get("/home", ensureLoggedIn, (req, res, next) => {
         }).then(story => {
           if (story) console.log("Story already exists")
           else {
-            newStory.save(error => {
-              if (error) console.log("*** SAVING NEW STORY ERROR", error);
-              else console.log("story saved");
-            });
+            newStory.save();
             let genre = entry.tags.map(tag => {
               return tag.name;
             });
@@ -171,12 +170,8 @@ router.get("/home", ensureLoggedIn, (req, res, next) => {
             }).then(album => {
               if (album) console.log("Album already exists")
               else {
-                newAlbum.save(error => {
-                  if (error)
-                    console.log("*** SAVING NEW ALBUM ERROR ", error);
-                  else console.log("album saved");
-                });
-                console.log(newAlbum._id);
+                newAlbum.save()
+                .then( console.log('Album saved', newAlbum._id));
               }
             });
           }
@@ -188,13 +183,51 @@ router.get("/home", ensureLoggedIn, (req, res, next) => {
           albums: albums,
           errorMessage: false
         });
-        console.log(albums)
       });
     })
     .catch(err => {
       console.log("error", err);
     });
 });
+
+
+//  ====== Listen Mode Page ======
+// ADD INSURE LOGGED IN WHEN DONE WITH TESTINGx
+
+// https://bandcamp.com/EmbeddedPlayer/v=2/album=1167778992/size=large/tracklist=true/artwork=small/
+router.get('/listen', (req, res, next) => {
+  res.render('listenPage', {
+    listenList: [
+      [{
+        _id: '59dcd37be32e431b1999dca3',
+        title: 'Ivrjèn',
+        albumBandcampID: '2429722687',
+        artist: 'Torba',
+        artistBandcampID: '3935990010',
+        coverURL: 'http://f4.bcbits.com/img/a1078811021_9.jpg',
+        itemURL: 'http://conjuntovacio.bandcamp.com/album/ivrj-n',
+        label: null,
+        __v: 0,
+        price_obj: [Object],
+        genres: [Array]
+      }],
+      [{
+        _id: '59dcd37be32e431b1999dca4',
+        title: 'Repeating',
+        albumBandcampID: '2418784641',
+        artist: 'Videoblu',
+        artistBandcampID: '3935990010',
+        coverURL: 'http://f4.bcbits.com/img/a1140095599_9.jpg',
+        itemURL: 'http://conjuntovacio.bandcamp.com/album/repeating',
+        label: null,
+        __v: 0,
+        price_obj: [Object],
+        genres: [Array]
+      }]
+    ]
+  })
+})
+
 
 // ====== Fetching User Bandcamp feed ======
 
