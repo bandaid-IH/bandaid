@@ -1,16 +1,26 @@
-<h2>Listen Mode</h2>
-Album <%=index + 1%> out of <%=listenListLength%> in your Listen List
-<br>
-<br>
-<img src="<%=currentAlbum.coverURL%>" alt="Album cover">
-<br>
-<%tracks.forEach( (track) => {%>
-  <br>
-  <%=track.title%>
-  <br>
-  <audio controls="controls"
-  src="<%=track.file['mp3-128']%>">
-  Your browser does not support the <code>audio</code> element.
-  </audio>
-  <br>
-<%})%>
+<div id='listen-mode' class="columns">
+  <div class="arrow column is-one-third">
+    <img src="/images/previous.svg" alt="Previous album">
+  </div>
+  <div class="column is-two-thirds is-narrow">
+    <h2>Listen Mode</h2>
+    Album <%=index + 1%> out of <%=listenListLength%> in your Listen List
+    <br>
+    <br>
+    <img src="<%=currentAlbum.coverURL%>" alt="Album cover">
+    <br>
+    <%tracks.forEach( (track) => {%>
+      <br>
+      <%=track.title%>
+      <br>
+      <audio controls="controls"
+      src="<%=track.file['mp3-128']%>">
+      Your browser does not support the <code>audio</code> element.
+      </audio>
+      <br>
+    <%})%>
+  </div>
+  <div class="arrow column is-one-third is-narrow">
+      <img src="/images/next.svg" alt="Next album">
+  </div>
+</div>
