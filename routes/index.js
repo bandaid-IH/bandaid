@@ -235,6 +235,7 @@ router.get('/listen/:num', (req, res, next) => {
     console.log(musicPlayerData.tracks)
     res.render('listenPage', {
       index,
+      currentAlbum,
       listenListLength: listenList.length,
       tracks: musicPlayerData.tracks
     })

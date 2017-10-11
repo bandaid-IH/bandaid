@@ -2,6 +2,8 @@
 Album <%=index + 1%> out of <%=listenListLength%> in your Listen List
 <br>
 <br>
+<img src="<%=currentAlbum.coverURL%>" alt="Album cover">
+<br>
 <%tracks.forEach( (track) => {%>
   <br>
   <%=track.title%>
