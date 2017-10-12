@@ -44,6 +44,33 @@
           <% } %>
         </div>
   </div>
+<<<<<<< HEAD
+=======
+  <div class="columns">
+    <% for (let i= 3; i < 6; i++) { %>
+      <div class="column is-2">
+        <img src="<%=albums[i][0].coverURL%>">
+        <strong><%= albums[i][0].title %></strong>
+        <br>
+        by: <%= albums[i][0].artist %>
+        <br>
+        <div class="content is-small">genres:
+          <%= albums[i][0].genres[0] %>,
+          <%= albums[i][0].genres[1] %>,
+          <%= albums[i][0].genres[2] %>
+        </div>
+        <a href="/add/<%= albums[i][0].albumBandcampID %>">add to Listen List</a>
+        </div>
+      <% } %>
+
+  <% if (errorMessage) { %>
+    <p class="error-message">
+      <%= errorMessage %>
+    </p>
+  <% } %>
+
+</div>
+>>>>>>> e882370acd8c08d14ab4cdc6a6249159b8aa12e3
 </section>
 
 <% if (errorMessage) { %>
