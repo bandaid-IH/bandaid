@@ -14,7 +14,7 @@ nav {
 
 #container {
   margin: 0px 100px;
-  padding: 50px;
+  padding: 10px 30px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
   background-color: rgb(218, 221, 222);
 }
@@ -34,6 +34,12 @@ a {
 .logo-text {
   font-family: 'Source Sans Pro';
   font-size: 2rem;
+}
+
+/* Sign Up Styling */
+
+.form-fields {
+  width: 300px;
 }
 
 

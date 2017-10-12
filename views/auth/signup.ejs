@@ -1,4 +1,15 @@
-<h2> Sign Up </h2>
+<section class="hero">
+  <div class="hero-body">
+    <div class="container">
+      <h1 class="title">
+        Sign up
+      </h1>
+      <h2 class="subtitle">
+        Welcome to Bandaid, please create an account
+      </h2>
+    </div>
+  </div>
+</section>
 
 <% if (errorMessage) { %>
   <p class="error-message">
@@ -6,18 +17,31 @@
   </p>
 <% } %>
 
-<form action="/signup" method="post">
-  <div>
-    <label for="username-input"> Username </label>
-    <input type="text" name="username">
+<form action="/signup" method="post" class="form-fields">
+  <div class="field">
+    <label class="label" for="username-input"> Username </label>
+    <div class="control has-icons-left">
+      <input class="input" type="text" name="username" placeholder="Username" autocomplete="off">
+      <span class="icon is-small is-left">
+      <i class="fa fa-user"></i>
+    </div>
   </div>
 
-  <div>
-    <label for="password-input"> Password </label>
-    <input type="password" name="password">
+  <div class="field">
+    <label class="label" for="password-input"> Password </label>
+    <div class="control has-icons-left">
+      <input class="input" type="password" name="password" placeholder="Password" autocomplete="off">
+      <span class="icon is-small is-left">
+      <i class="fa fa-lock"></i>
+    </span>
+    </div>
   </div>
 
-  <button> Create New Account </button>
+  <div class="field is-grouped">
+  <div class="control">
+    <button class="button is-link"> Create New Account </button>
+  </div>
+  </div>
 </form>
 
 <p>
