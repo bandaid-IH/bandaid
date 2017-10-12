@@ -1,9 +1,18 @@
+* {
+  box-sizing: border-box;
+}
+
 html {
   height: 100vh;
   background-color: rgb(225, 232, 232);
 }
 
-body {
+nav {
+  margin-bottom: 30px;
+}
+
+
+#container {
   margin: 0px 100px;
   padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
