@@ -324,9 +324,9 @@ router.get('/listen/:index/rocks', ensureLoggedIn, (req, res, next) => {
     })
     .then((user) => {
       if (req.params.index - 1 === req.user.listenList.length) {
-        res.redirect(`/listen/${req.params.index - 2}`)
+        // res.redirect(`/listen/${req.params.index - 2}`)
       } else {
-        res.redirect(`/listen/${req.params.index - 1}`)
+        // res.redirect(`/listen/${req.params.index - 1}`)
       }
     })
 })
