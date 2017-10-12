@@ -105,6 +105,12 @@ router.post(
   })
 );
 
+//  ====== Log Out ======
+router.get("/logout", ensureLoggedIn, (req, res) => {
+  req.logout();
+  res.redirect("/");
+});
+
 // ====== Bandcamp Set-Up Page ======
 router.get("/bandcampsetup", ensureLoggedIn, (req, res, next) => {
   res.render("auth/bandcampsetup", {
