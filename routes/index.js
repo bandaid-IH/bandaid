@@ -304,7 +304,15 @@ router.post('/add/:id/:user', (req, res, next) => {
   let albumBandcampID = req.params.id
   let userID = req.params.user
 
-  console.log('inside post', albumBandcampID, '  ', userID)
+  User.findByIdAndUpdate({
+    _id: userID
+  }, {
+    $addToSet: {
+      listenList: albumBandcampID
+    }
+  }).catch((error) => {
+    console.log(error)
+  })
 })
 
 
@@ -355,7 +363,7 @@ function spotifyTestFunc(requestedAlbum) {
               if (album.name.toLowerCase() === requestedAlbum.title.toLowerCase()) {
                 return album.external_urls.spotify
               }
-            }).find( v => v)
+            }).find(v => v)
           })
       }).filter(v => v)
       return Promise.all(promises)
