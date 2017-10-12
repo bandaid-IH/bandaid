@@ -206,11 +206,10 @@ router.get("/home", ensureLoggedIn, (req, res, next) => {
       });
       constructFeed(req.user._id).then(albums => {
         res.render("home", {
-
+          rows: albums.length - (albums.length % 3),
           albums: albums,
           errorMessage: false
         });
-        console.log(albums[1][0].genres[0], albums[1][0].genres[1], albums[1][0].genres[2]);
       });
     })
     .catch(err => {
@@ -332,8 +331,8 @@ async function getBandcampFeed(bandcampID) {
     const a = await axios.post(
       "https://bandcamp.com/fan_dash_feed_updates",
       qs.stringify({
-        fan_id: bandcampID
-        // older_than: 1483605566
+        fan_id: bandcampID,
+        older_than: 999999999990
       }), {
         headers: {
           Cookie: "client_id=066071D749E770DABEDA6A53D3D59BAEE19651A0DCE19E0A8A667F165E24FDBF; unique_24h=223; want_https=1; identity=6%09efbc233f4349282ad61de8f592ab1fda%09%7B%22id%22%3A4147611151%2C%22h1%22%3A%22819f670ef1890f499a5c62baa315ffb8%22%2C%22ex%22%3A0%7D; session=1%09t%3A1507291939%09r%3A%5B%22261569836S0c0x1507292079%22%2C%22241753119x0c0x1507292003%22%2C%2218185G0f0x1507291939%22%5D; fan_visits=503214; BACKENDID=bender06-1",
