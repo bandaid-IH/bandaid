@@ -7,9 +7,20 @@
     <link rel='stylesheet' href='/stylesheets/style.css' />
   </head>
   <body>
-    <header>
-      <h1> <a href="/"> <%= title %> </a> </h1>
-    </header>
+    <nav class="navbar is-primary" role="navigation" aria-label="main navigation">
+      <div class="navbar-brand">
+        <a class="navbar-item" href="/"> <%= title %> </a>
+      </div>
+      <div class="navbar-item">
+        <a href="/home">Home</a>
+      <div>
+      <div class="navbar-item">
+        <a href="/home">Listen Mode</a>
+      <div>
+      <div class="navbar-item">
+        <a href="/home">Logout</a>
+      <div>
+    </nav>
 
     <%- body -%>
 

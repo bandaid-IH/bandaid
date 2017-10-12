@@ -1,53 +1,53 @@
-<div class="navbar">
-Home | Profile | Listen Mode
-</div>
-<section class="container">
+<section class="section" id="home">
+  <div class="container">
 
-  <div class="columns">
-    <% for (let i= 0; i < 3; i++) { %>
-      <div class="column is-2">
-        <img src="<%=albums[i][0].coverURL%>">
-        <br>
-        <strong><%= albums[i][0].title %></strong>
-        <br>
-        by: <%= albums[i][0].artist %>
-        <br>
-        <div class="tags">
-        <div class="content is-small">tags:
-        <span class="tag is-link"><%= albums[i][0].genres[0] %></span>
-        <% for (let tags=1; tags < 3; tags++) { %>
-          <% if (albums[i][0].genres[tags] !== null) { %>
-          <span class="tag is-link"><%= albums[i][0].genres[tags] %></span>
-          <% } %>
+    <div class="columns is-centered">
+      <% for (let i= 0; i < 3; i++) { %>
+        <div class="column is-one-quarter">
+          <div class="cover"><img src="<%=albums[i][0].coverURL%>"></div>
+          <p class="album-title"><strong><%= albums[i][0].title %></strong></p>
+          <p class="artist">by: <%= albums[i][0].artist %></p>
+            <div class="tags genres">
+              <div class="content is-small">tags:
+              <% for (let tags=0; tags < 3; tags++) { %>
+                <% if (albums[i][0].genres[tags] !== undefined) { %>
+                  <span class="tag is-light"><%= albums[i][0].genres[tags] %></span>
+                <% } %>
+              <% } %>
+              </div>
+            </div>
+            <div>
+              <a href="/add/<%= albums[i][0].albumBandcampID %>" class="tag is-link go-to-listen-mode">add to Listen List</a>
+            </div>
+          </div>
         <% } %>
+      </div>
+      <div class="columns is-centered">
+        <% for (let i= 3; i < 6; i++) { %>
+          <div class="column is-one-quarter">
+            <div class="cover"><img src="<%=albums[i][0].coverURL%>"></div>
+            <p class="album-title"><strong><%= albums[i][0].title %></strong></p>
+            <p class="artist">by: <%= albums[i][0].artist %></p>
+              <div class="tags genres">
+                <div class="content is-small">tags:
+                <% for (let tags=0; tags < 3; tags++) { %>
+                  <% if (albums[i][0].genres[tags] !== undefined) { %>
+                    <span class="tag is-light"><%= albums[i][0].genres[tags] %></span>
+                  <% } %>
+                <% } %>
+                </div>
+              </div>
+              <div>
+                <a href="/add/<%= albums[i][0].albumBandcampID %>" class="tag is-link go-to-listen-mode">add to Listen List</a>
+              </div>
+            </div>
+          <% } %>
         </div>
-        </div>
-        <a href="/add/<%= albums[i][0].albumBandcampID %>">add to Listen List</a>
-        </div>
-      <% } %>
   </div>
-  <div class="columns">
-    <% for (let i= 3; i < 6; i++) { %>
-      <div class="column is-2">
-        <img src="<%=albums[i][0].coverURL%>">
-        <strong><%= albums[i][0].title %></strong>
-        <br>
-        by: <%= albums[i][0].artist %>
-        <br>
-        <div class="content is-small">genres:
-          <%= albums[i][0].genres[0] %>,
-          <%= albums[i][0].genres[1] %>,
-          <%= albums[i][0].genres[2] %>
-        </div>
-        <a href="/add/<%= albums[i][0].albumBandcampID %>">add to Listen List</a>
-        </div>
-      <% } %>
-
-  <% if (errorMessage) { %>
-    <p class="error-message">
-      <%= errorMessage %>
-    </p>
-  <% } %>
-
-</div>
 </section>
+
+<% if (errorMessage) { %>
+  <p class="error-message">
+    <%= errorMessage %>
+  </p>
+<% } %>
