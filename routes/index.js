@@ -232,8 +232,8 @@ router.get('/listen/:num', ensureLoggedIn, (req, res, next) => {
   let listenList = req.user.listenList
   let currentAlbumID = listenList[index]
   if ( req.user.listenList.length === 1) {
-    console.log('SITUATION 1')
     res.render('done')
+    return undefined
   }
   let album_URL = `https://bandcamp.com/EmbeddedPlayer/v=2/album=${currentAlbumID}/size=large/tracklist=true/artwork=small/`
   axios.get(album_URL)
