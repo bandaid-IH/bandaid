@@ -156,7 +156,7 @@ function getBandcampID(BCusername) {
 router.get("/home", ensureLoggedIn, (req, res, next) => {
   getBandcampFeed(req.user.bandcampID)
     .then(feed_array => {
-      console.log(feed_array)
+      // console.log(feed_array)
       // console.log(feed_array[3])
       feed_array.forEach(entry => {
         console.log('CHECK ', entry.story_type, entry.story_type === 'fp')
@@ -214,7 +214,7 @@ router.get("/home", ensureLoggedIn, (req, res, next) => {
         let albumsList = albums.sort((a, b) => {
           return b[0].buyCount - a[0].buyCount
         })
-        console.log(albumsList)
+        // console.log(albumsList)
         res.render("home", {
           albumsList: albumsList,
           errorMessage: false
@@ -256,19 +256,26 @@ router.get('/listen/:num', ensureLoggedIn, (req, res, next) => {
           albumBandcampID: currentAlbumID
         })
         .then((currentAlbum) => {
-          res.render('listenPage', {
-            index,
-            currentAlbum: currentAlbum[0],
-            listenListLength: listenList.length,
-            tracks: musicPlayerData.tracks,
-            displayArrows,
+          console.log(currentAlbum[0])
+          spotifyFunc({
+            title: currentAlbum[0].title,
+            artist: currentAlbum[0].artist
+          }).then( (spotifyLink) => {
+            console.log(spotifyLink)
+            res.render('listenPage', {
+              index,
+              currentAlbum: currentAlbum[0],
+              listenListLength: listenList.length,
+              tracks: musicPlayerData.tracks,
+              displayArrows,
+              spotifyLink: spotifyLink[0]
+            })
           })
         })
     })
     .catch((error) => {
       console.log(error)
     })
-
 })
 
 
@@ -398,7 +405,7 @@ function constructFeed(id) {
 }
 
 
-function spotifyTestFunc(requestedAlbum) {
+function spotifyFunc(requestedAlbum) {
   return spotifyApi.searchArtists(requestedAlbum.artist)
     .then((searchResult) => searchResult.body.artists.items)
     .then((artists) => {
@@ -412,7 +419,7 @@ function spotifyTestFunc(requestedAlbum) {
             }).find(v => v)
           })
       }).filter(v => v)
-      const albums = Promise.all(promises)
+      return Promise.all(promises)
     })
     .catch((error) => console.log('Spotify Error, line 364', error))
 
