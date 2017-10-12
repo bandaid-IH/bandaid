@@ -44,18 +44,19 @@ a {
   flex-direction: row;
   justify-content: center;
   align-content: center;
-  margin-bottom: 15px;
+  margin-bottom: 30px;
 }
 
 #listen-mode .user-feedback a {
-  width: 50px;
+  width: 75px;
   height: 50px;
   margin: 0px 50px;
+  opacity: 0.8;
 }
 
 #sucks, #rocks {
-  width: 50px;
-  height: 50px
+  width: 75px;
+  height: 75px
 }
 
 #listen-mode .arrow img, #listen-mode .arrow a {
