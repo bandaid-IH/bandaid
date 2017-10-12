@@ -14,6 +14,19 @@ a {
   color: #00B7FF;
 }
 
+.logo-icon {
+  max-width: 30px;
+  max-height: 30px;
+  margin: 0 10px 0 0;
+  fill: white;
+  color: white;
+}
+
+.logo-text {
+  font-family: 'Source Sans Pro';
+  font-size: 2rem;
+}
+
 
 /* Listen Mode Styling */
 #listen-mode .arrow {
@@ -89,6 +102,8 @@ a {
 
 #home .cover {
   margin: 0 0 5px 0;
+  min-width: 128px;
+  max-width: 256px;
 }
 
 #home .album-title {
@@ -102,7 +117,7 @@ a {
 }
 
 #home .genres {
-  height: 58px;
+  /*height: 58px;*/
 }
 
 #home .go-to-listen-mode {
