@@ -122,7 +122,9 @@ router.post("/bandcampsetup", ensureLoggedIn, (req, res, next) => {
           bandcampID: id
         },
         error => {
-          res.redirect("/home");
+          setTimeout(() => {
+            res.redirect("/home")
+          }, 100)
         }
       );
     })
@@ -231,7 +233,7 @@ router.get('/listen/:num', ensureLoggedIn, (req, res, next) => {
   let index = req.params.num - 1
   let listenList = req.user.listenList
   let currentAlbumID = listenList[index]
-  if ( req.user.listenList.length === 1) {
+  if (req.user.listenList.length === 1) {
     res.render('done')
     return undefined
   }
@@ -304,10 +306,9 @@ router.get('/listen/:index/sucks', ensureLoggedIn, (req, res, next) => {
       listenList: itemToRemove
     }
   }).then((user) => {
-    if ( req.user.listenList.length === 1) {
+    if (req.user.listenList.length === 1) {
       res.render('done')
-    }
-    else if (req.params.index - 1 === req.user.listenList.length) {
+    } else if (req.params.index - 1 === req.user.listenList.length) {
       res.redirect(`/listen/${req.params.index - 2}`)
     } else {
       res.redirect(`/listen/${req.params.index - 1}`)
@@ -341,7 +342,7 @@ router.get('/musicbox', ensureLoggedIn, (req, res, next) => {
     _id
   }).then((user) => {
     let musicList = user.musicBox
-    const promises = musicList.map( albumID => {
+    const promises = musicList.map(albumID => {
       return Album.find({
         albumBandcampID: albumID
       })
