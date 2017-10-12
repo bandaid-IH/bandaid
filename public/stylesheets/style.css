@@ -52,8 +52,29 @@ a {
 
 
 /* Listen Mode Styling */
+#listen-mode {
+  padding-right: 50px;
+}
+
+#listen-mode h1 {
+  font-size: 2.4em;
+  margin-bottom: 10px;
+  margin-top: 20px;
+  width: 700px;
+  text-align: center;
+}
+
+#listen-mode h2 {
+  margin-bottom: 10px;
+}
+
 #listen-mode .arrow {
   width: 150px;
+  margin-top: 250px;
+}
+
+#next {
+  margin-right: 50px; 
 }
 
 #listen-mode div {
@@ -163,7 +184,7 @@ a {
 
 
 /* Styling the Done page */
-#donePage h1 {
+#donePage h1, {
   font-size: 4em;
   margin: 50px;
   margin-bottom: 0px;
