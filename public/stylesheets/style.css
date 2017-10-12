@@ -57,18 +57,19 @@ a {
   flex-direction: row;
   justify-content: center;
   align-content: center;
-  margin-bottom: 15px;
+  margin-bottom: 30px;
 }
 
 #listen-mode .user-feedback a {
-  width: 50px;
+  width: 75px;
   height: 50px;
   margin: 0px 50px;
+  opacity: 0.8;
 }
 
 #sucks, #rocks {
-  width: 50px;
-  height: 50px
+  width: 75px;
+  height: 75px
 }
 
 #listen-mode .arrow img, #listen-mode .arrow a {
@@ -78,22 +79,26 @@ a {
 
 #listen-mode .track {
   display: flex;
+  justify-content: center;
   flex-direction: row;
   align-items: center;
-  width: 480px;
-  justify-content: center;
+  width: 600px;
+  margin: 2px 0px;
 }
 
-#listen-mode .track p {
+#listen-mode .track p:first-of-type {
   margin-right: 20px;
 }
 
-#listen-mode .track audio {
+#listen-mode .track audio, #listen-mode .NA-error-message {
   width: 300px;
   margin: 4px;
   margin-left: auto;
 }
 
+#listen-mode .NA-error-message {
+  margin-right: 0px;
+}
 /* Home Styling */
 
 .tag:not(body) {

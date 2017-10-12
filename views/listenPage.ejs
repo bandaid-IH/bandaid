@@ -16,29 +16,35 @@
       <img src="<%=currentAlbum.coverURL%>" alt="Album cover">
     </div>
     <div class='user-feedback'>
-      <a href="listen/<%=index + 2%>/sucks">
-        <img id='sucks' src="/images/cross.svg" alt="Sucks">
+      <a href="<%=index + 2%>/sucks">
+        <img id='sucks' src="/images/zombie.svg" alt="Sucks">
       </a>
-      <a href="listen/<%=index + 2%>/rocks">
-        <img id='rocks' src="/images/tick.svg" alt="Rocks">
+      <a href="<%=index + 2%>/rocks">
+        <img id='rocks' src="/images/rainbow2.svg" alt="Rocks">
       </a>
     </div>
     <br>
     <%tracks.forEach( (track) => {%>
       <div class='track'>
         <p><%=track.title%></p>
-        <audio controls="controls" controlsList="nodownload"
-        src="<%=track.file['mp3-128']%>">
-        Your browser does not support the <code>audio</code> element.
-        </audio>
+        <% if (track.file) {%>
+          <audio controls="controls" controlsList="nodownload"
+          src="<%=track.file['mp3-128']%>">
+          Your browser does not support the <code>audio</code> element.
+          </audio>
+        <%} else {%>
+          <p class='NA-error-message'>
+            Track not available for pre-listening
+          </p>
+        <%}%>
       </div>
     <%})%>
   </div>
-  <!--  if (displayArrows.next ) { -->
+   <% if (displayArrows.next ) { %>
   <div class="arrow column is-one-third is-narrow">
       <a href="/listen/<%=index + 2%>">
         <img id='next' src="/images/next.svg" alt="Next album">
       </a>
   </div>
-  <!-- } -->
+  <% } %>
 </div>
