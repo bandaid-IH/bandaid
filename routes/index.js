@@ -214,7 +214,6 @@ router.get("/home", ensureLoggedIn, (req, res, next) => {
         })
         console.log(albumsList)
         res.render("home", {
-          rows: albumsList.length - (albumsList.length % 3),
           albumsList: albumsList,
           errorMessage: false
         });
@@ -345,7 +344,6 @@ router.get('/musicbox', ensureLoggedIn, (req, res, next) => {
       (result) => {
         res.render('musicbox', {
           albumsList: result,
-          rows: musicList.length - (musicList.length % 3),
           errorMessage: false
         })
       }
