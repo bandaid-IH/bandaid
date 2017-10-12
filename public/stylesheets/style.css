@@ -76,13 +76,14 @@ a {
 }
 
 #listen-mode .user-feedback a {
-  width: 75px;
+  width: 65px;
   height: 50px;
-  margin: 0px 50px;
+  margin: 0px 40px;
   opacity: 0.8;
+  margin-top: 10px;
 }
 
-#sucks, #rocks {
+#sucks, #rocks, #bc {
   width: 75px;
   height: 75px
 }
