@@ -137,9 +137,17 @@ a {
 }
 
 #home .genres {
-  /*height: 58px;*/
+  margin-bottom: 5px;
 }
 
 #home .go-to-listen-mode {
   font-size: 0.75rem;
+}
+
+#home .count {
+  margin-left: 10px;
+}
+
+#home .bottom-tag {
+  margin-bottom: 10px;
 }
