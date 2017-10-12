@@ -180,3 +180,16 @@ a {
   margin-left: 200px;
   margin-top: -20px;
 }
+
+/* Styling the MusicBox */
+.musicBoxTitle {
+  font-size: 3em;
+  display: flex;
+  align-items: center;
+}
+
+.musicBoxTitle img {
+  width: 40px;
+  margin-bottom: -10px;
+  margin-left: 8px;
+}
