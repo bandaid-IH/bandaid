@@ -244,13 +244,13 @@ router.get('/listen/:num', ensureLoggedIn, (req, res, next) => {
       Album.find({
           albumBandcampID: currentAlbumID
         })
-        .then( (currentAlbum) => {
+        .then((currentAlbum) => {
           res.render('listenPage', {
             index,
-            currentAlbum:currentAlbum[0],
+            currentAlbum: currentAlbum[0],
             listenListLength: listenList.length,
             tracks: musicPlayerData.tracks,
-            displayArrows
+            displayArrows,
           })
         })
     })
@@ -286,33 +286,42 @@ router.post('/add/:id/:user', (req, res, next) => {
 //  ====== User feedback - Sucks ======
 router.get('/listen/:index/sucks', ensureLoggedIn, (req, res, next) => {
   let currentIndex = req.params.index - 2
-  let _id= req.user._id
+  let _id = req.user._id
   let itemToRemove = req.user.listenList[currentIndex].toString()
-  console.log(itemToRemove)
-  console.log(currentIndex)
-  console.log(_id)
-  User.findByIdAndUpdate({_id}, {
+  User.findByIdAndUpdate({
+    _id
+  }, {
     $pull: {
       listenList: itemToRemove
     }
-  }).then( (user) => {
-    console.log('USER1', req.user)
-
-    console.log('LENGTH', req.user.listenList.length)
-    console.log('PARAMS', req.params.index)
+  }).then((user) => {
     if (req.params.index - 1 === req.user.listenList.length) {
-      console.log("IN ITTTTTTTTTTTTTTTTTTTTTTTT")
       res.redirect(`/listen/${req.params.index - 2}`)
     } else {
       res.redirect(`/listen/${req.params.index - 1}`)
     }
-  }
-  )
+  })
 })
 
 //  ====== User feedback - Rocks ======
 router.get('/listen/:index/rocks', ensureLoggedIn, (req, res, next) => {
-  console.log('ALBUM ROCKS')
+  let currentIndex = req.params.index - 2
+  let _id = req.user._id
+  let itemToRemove = req.user.listenList[currentIndex].toString()
+  User.findByIdAndUpdate({
+    _id
+  }, {
+    $pull: {
+      listenList: itemToRemove
+    }
+  })
+  .then((user) => {
+    if (req.params.index - 1 === req.user.listenList.length) {
+      res.redirect(`/listen/${req.params.index - 2}`)
+    } else {
+      res.redirect(`/listen/${req.params.index - 1}`)
+    }
+  })
 })
 
 
