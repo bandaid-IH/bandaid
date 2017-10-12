@@ -65,18 +65,23 @@ a {
 
 #listen-mode .track {
   display: flex;
+  justify-content: center;
   flex-direction: row;
   align-items: center;
-  width: 480px;
-  justify-content: center;
+  width: 600px;
+  margin: 2px 0px;
 }
 
-#listen-mode .track p {
+#listen-mode .track p:first-of-type {
   margin-right: 20px;
 }
 
-#listen-mode .track audio {
+#listen-mode .track audio, #listen-mode .NA-error-message {
   width: 300px;
   margin: 4px;
   margin-left: auto;
+}
+
+#listen-mode .NA-error-message {
+  margin-right: 0px;
 }

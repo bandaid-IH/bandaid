@@ -221,39 +221,11 @@ router.get("/home", ensureLoggedIn, (req, res, next) => {
 
 //  ====== Listen Mode Page ======
 // ADD INSURE LOGGED IN WHEN DONE WITH TESTINGx
-router.get('/listen/:num', (req, res, next) => {
+router.get('/listen/:num', ensureLoggedIn, (req, res, next) => {
   let index = req.params.num - 1
-  let listenList = [
-    [{
-      _id: '59dcd37be32e431b1999dca3',
-      title: 'Ivrjèn',
-      albumBandcampID: '2429722687',
-      artist: 'Torba',
-      artistBandcampID: '3935990010',
-      coverURL: 'http://f4.bcbits.com/img/a1078811021_9.jpg',
-      itemURL: 'http://conjuntovacio.bandcamp.com/album/ivrj-n',
-      label: null,
-      __v: 0,
-      price_obj: [Object],
-      genres: [Array]
-    }],
-    [{
-      _id: '59dcd37be32e431b1999dca4',
-      title: 'Repeating',
-      albumBandcampID: '2418784641',
-      artist: 'Videoblu',
-      artistBandcampID: '3935990010',
-      coverURL: 'http://f4.bcbits.com/img/a1140095599_9.jpg',
-      itemURL: 'http://conjuntovacio.bandcamp.com/album/repeating',
-      label: null,
-      __v: 0,
-      price_obj: [Object],
-      genres: [Array]
-    }]
-  ]
-  let currentAlbum = listenList[index][0]
-  let albumBandcampID = currentAlbum.albumBandcampID
-  let album_URL = `https://bandcamp.com/EmbeddedPlayer/v=2/album=${albumBandcampID}/size=large/tracklist=true/artwork=small/`
+  let listenList = req.user.listenList
+  let currentAlbumID = listenList[index]
+  let album_URL = `https://bandcamp.com/EmbeddedPlayer/v=2/album=${currentAlbumID}/size=large/tracklist=true/artwork=small/`
   axios.get(album_URL)
     .then(function (response) {
       let HTML = response.data
@@ -269,27 +241,23 @@ router.get('/listen/:num', (req, res, next) => {
       if (index === 0) displayArrows.prev = false
       if (index === listenList.length - 1) displayArrows.next = false
 
-      // Function to alert the user if the album is on spotify,
-      // it is called with a test object for now
-      spotifyTestFunc({
-          artist: 'lord echo',
-          title: 'melodies'
+      Album.find({
+          albumBandcampID: currentAlbumID
         })
-        .then((link) => {
-          console.log("LINK - FROM INSIDE THE ROUTE ", link)
+        .then( (currentAlbum) => {
+          res.render('listenPage', {
+            index,
+            currentAlbum:currentAlbum[0],
+            listenListLength: listenList.length,
+            tracks: musicPlayerData.tracks,
+            displayArrows
+          })
         })
-
-      res.render('listenPage', {
-        index,
-        currentAlbum,
-        listenListLength: listenList.length,
-        tracks: musicPlayerData.tracks,
-        displayArrows
-      })
     })
     .catch((error) => {
       console.log(error)
     })
+
 })
 
 
