@@ -209,7 +209,7 @@ router.get("/home", ensureLoggedIn, (req, res, next) => {
           albums: albums,
           errorMessage: false
         });
-        console.log(albums[0][0].genres[0], albums[0][0].genres[1]);
+        console.log(albums[1][0].genres[0], albums[1][0].genres[1], albums[1][0].genres[2]);
       });
     })
     .catch(err => {

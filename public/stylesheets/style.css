@@ -80,3 +80,31 @@ a {
   margin: 4px;
   margin-left: auto;
 }
+
+/* Home Styling */
+
+.tag:not(body) {
+  font-size: 0.65rem;
+}
+
+#home .cover {
+  margin: 0 0 5px 0;
+}
+
+#home .album-title {
+  margin: 0 0 10px 0;
+  font-size: 1rem;
+  /*height: 36px;*/
+}
+
+#home .artist {
+  margin: 0 0 5px 0;
+}
+
+#home .genres {
+  height: 58px;
+}
+
+#home .go-to-listen-mode {
+  font-size: 0.75rem;
+}
