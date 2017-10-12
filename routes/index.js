@@ -316,19 +316,41 @@ router.get('/listen/:index/rocks', ensureLoggedIn, (req, res, next) => {
   let _id = req.user._id
   let itemToRemove = req.user.listenList[currentIndex].toString()
   User.findByIdAndUpdate({
-      _id
-    }, {
-      $pull: {
-        listenList: itemToRemove
-      }
+    _id
+  }, {
+    $pull: {
+      listenList: itemToRemove
+    },
+    $addToSet: {
+      musicBox: itemToRemove
+    }
+  }).then((user) => {
+    console.log('a')
+  })
+})
+
+//  ====== Music Box ======
+router.get('/musicbox', ensureLoggedIn, (req, res, next) => {
+  let _id = req.user._id
+  User.findOne({
+    _id
+  }).then((user) => {
+    let musicList = user.musicBox
+    const promises = musicList.map( albumID => {
+      return Album.find({
+        albumBandcampID: albumID
+      })
     })
-    .then((user) => {
-      if (req.params.index - 1 === req.user.listenList.length) {
-        // res.redirect(`/listen/${req.params.index - 2}`)
-      } else {
-        // res.redirect(`/listen/${req.params.index - 1}`)
+    albumsList = Promise.all(promises).then(
+      (result) => {
+        res.render('musicbox', {
+          albumsList: result,
+          rows: musicList.length - (musicList.length % 3),
+          errorMessage: false
+        })
       }
-    })
+    )
+  })
 })
 
 

@@ -1,0 +1,70 @@
+<h1>test</h1>
+<section class="section is-centered" id="home">
+    <% for (let i= 0; i < rows - 1; i = i + 3) { %>
+      <div class="columns">
+
+    <!--  Column 1 -->
+      <div class="column is-one-third">
+        <figure class="cover image is-256x256"><img src="<%=albumsList[i][0].coverURL%>"></figure>
+        <p class="album-title"><strong><%= albumsList[i][0].title %></strong></p>
+        <p class="artist">by: <%= albumsList[i][0].artist %></p>
+          <div class="tags genres">
+            <div class="content is-small">tags:
+            <% for (let tags=0; tags < 3; tags++) { %>
+              <% if (albumsList[i][0].genres[tags] !== undefined) { %>
+                <span class="tag is-light"><%= albumsList[i][0].genres[tags] %></span>
+                <% } %>
+                <% } %>
+              </div>
+            </div>
+            <div class="tags bottom-tag">
+          <a href="/add/<%= albumsList[i][0].albumBandcampID %>" class="tag is-link go-to-listen-mode">add to Listen List</a><span class="tag is-light is-rounded count"><%=albumsList[i][0].buyCount %> fans bought this</span>
+          </div>
+        </div>
+
+        <!--  Column 2 -->
+        <div class="column is-one-third">
+          <figure class="cover image is-256x256"><img src="<%=albumsList[i+1][0].coverURL%>"></figure>
+          <p class="album-title"><strong><%= albumsList[i+1][0].title %></strong></p>
+          <p class="artist">by: <%= albumsList[i+1][0].artist %></p>
+            <div class="tags genres">
+              <div class="content is-small">tags:
+              <% for (let tags=0; tags < 3; tags++) { %>
+                <% if (albumsList[i+1][0].genres[tags] !== undefined) { %>
+                  <span class="tag is-light"><%= albumsList[i+1][0].genres[tags] %></span>
+                <% } %>
+              <% } %>
+              </div>
+            </div>
+            <div class="tags bottom-tag">
+          <a href="/add/<%= albumsList[i+1][0].albumBandcampID %>" class="tag is-link go-to-listen-mode">add to Listen List</a><span class="tag is-light is-rounded count"><%=albumsList[i+1][0].buyCount %> fans bought this</span>
+          </div>
+        </div>
+
+          <!--  Column 3 -->
+          <div class="column is-one-third">
+            <figure class="cover image is-256x256"><img src="<%=albumsList[i+2][0].coverURL%>"></figure>
+            <p class="album-title"><strong><%= albumsList[i+2][0].title %></strong></p>
+            <p class="artist">by: <%= albumsList[i+2][0].artist %></p>
+              <div class="tags genres">
+                <div class="content is-small">tags:
+                <% for (let tags=0; tags < 3; tags++) { %>
+                  <% if (albumsList[i+2][0].genres[tags] !== undefined) { %>
+                    <span class="tag is-light"><%= albumsList[i+2][0].genres[tags] %></span>
+                  <% } %>
+                <% } %>
+                </div>
+              </div>
+              <div class="tags bottom-tag">
+            <a href="/add/<%= albumsList[i+1][0].albumBandcampID %>" class="tag is-link go-to-listen-mode">add to Listen List</a><span class="tag is-light is-rounded count"><%=albumsList[i+1][0].buyCount %> fans bought this</span>
+            </div>
+          </div>
+            </div>
+        <% } %>
+</section>
+
+<% if (errorMessage) { %>
+<p class="error-message">
+  <%= errorMessage %>
+</p>
+<% } %>

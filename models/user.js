@@ -9,7 +9,7 @@ const userSchema = new Schema({
   email: String,
   favoriteArtists: String,
   listenList: [String],
-  toBuyList: [String]
+  musicBox: [String]
 })
 
 const User = mongoose.model('User', userSchema)
