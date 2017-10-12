@@ -231,12 +231,15 @@ router.get('/listen/:num', ensureLoggedIn, (req, res, next) => {
   let index = req.params.num - 1
   let listenList = req.user.listenList
   let currentAlbumID = listenList[index]
+  if ( req.user.listenList.length === 1) {
+    console.log('SITUATION 1')
+    res.render('done')
+  }
   let album_URL = `https://bandcamp.com/EmbeddedPlayer/v=2/album=${currentAlbumID}/size=large/tracklist=true/artwork=small/`
   axios.get(album_URL)
     .then(function (response) {
       let HTML = response.data
       let musicPlayerData = JSON.parse(HTML.match(/var\s*playerdata\s*=\s*(.+);/)[1]);
-      console.log(musicPlayerData.tracks)
 
       // This part either displays or not the arrows, depending on the user's postion
       // in the Listen List
@@ -301,7 +304,10 @@ router.get('/listen/:index/sucks', ensureLoggedIn, (req, res, next) => {
       listenList: itemToRemove
     }
   }).then((user) => {
-    if (req.params.index - 1 === req.user.listenList.length) {
+    if ( req.user.listenList.length === 1) {
+      res.render('done')
+    }
+    else if (req.params.index - 1 === req.user.listenList.length) {
       res.redirect(`/listen/${req.params.index - 2}`)
     } else {
       res.redirect(`/listen/${req.params.index - 1}`)
