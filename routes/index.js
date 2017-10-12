@@ -157,57 +157,65 @@ router.get("/home", ensureLoggedIn, (req, res, next) => {
       console.log(feed_array)
       // console.log(feed_array[3])
       feed_array.forEach(entry => {
-        let newStory = new Story({
-          date: entry.story_date,
-          fanBandcampID: entry.fan_id,
-          buyCount: entry.also_collected_count,
-          type: entry.story_type,
-          album: entry.album_id,
-          user: req.user._id
-        });
-        // console.log(newStory);
-        Story.findOne({
-          fanBandcampID: entry.fan_id,
-          album: entry.album_id,
-          user: req.user._id
-        }).then(story => {
-          if (story) console.log("Story already exists")
-          else {
-            newStory.save();
-            console.log("story saved")
-            let genre = entry.tags.map(tag => {
-              return tag.name;
-            });
-            let newAlbum = new Album({
-              title: entry.album_title,
-              albumBandcampID: entry.album_id,
-              genres: genre,
-              artist: entry.band_name,
-              artistBandcampID: entry.band_id,
-              coverURL: entry.item_art_url,
-              itemURL: entry.item_url,
-              label: entry.label,
-              price_obj: {
-                price: entry.price,
-                currency: entry.currency
-              }
-            });
-            Album.findOne({
-              albumBandcampID: entry.album_id
-            }).then(album => {
-              if (album) console.log("Album already exists")
-              else {
-                newAlbum.save()
-                  .then(console.log('Album saved', newAlbum._id));
-              }
-            });
-          }
-        });
+        console.log('CHECK ', entry.story_type, entry.story_type === 'fp')
+        if (entry.story_type === 'fp') {
+          let newStory = new Story({
+            date: entry.story_date,
+            fanBandcampID: entry.fan_id,
+            buyCount: entry.also_collected_count,
+            type: entry.story_type,
+            album: entry.album_id,
+            user: req.user._id
+          });
+          // console.log(newStory);
+          Story.findOne({
+            fanBandcampID: entry.fan_id,
+            album: entry.album_id,
+            user: req.user._id
+          }).then(story => {
+            if (story) console.log("Story already exists")
+            else {
+              newStory.save();
+              console.log("story saved")
+              let genre = entry.tags.map(tag => {
+                return tag.name;
+              });
+              let newAlbum = new Album({
+                title: entry.album_title,
+                albumBandcampID: entry.album_id,
+                genres: genre,
+                artist: entry.band_name,
+                artistBandcampID: entry.band_id,
+                coverURL: entry.item_art_url,
+                itemURL: entry.item_url,
+                label: entry.label,
+                buyCount: entry.also_collected_count,
+                price_obj: {
+                  price: entry.price,
+                  currency: entry.currency
+                }
+              });
+              Album.findOne({
+                albumBandcampID: entry.album_id
+              }).then(album => {
+                if (album) console.log("Album already exists")
+                else {
+                  newAlbum.save()
+                    .then(console.log('Album saved', newAlbum._id));
+                }
+              });
+            }
+          });
+        }
       });
       constructFeed(req.user._id).then(albums => {
+        let albumsList = albums.sort((a, b) => {
+          return b[0].buyCount - a[0].buyCount
+        })
+        console.log(albumsList)
         res.render("home", {
-          rows: albums.length - (albums.length % 3),
-          albums: albums,
+          rows: albumsList.length - (albumsList.length % 3),
+          albumsList: albumsList,
           errorMessage: false
         });
       });
@@ -308,19 +316,19 @@ router.get('/listen/:index/rocks', ensureLoggedIn, (req, res, next) => {
   let _id = req.user._id
   let itemToRemove = req.user.listenList[currentIndex].toString()
   User.findByIdAndUpdate({
-    _id
-  }, {
-    $pull: {
-      listenList: itemToRemove
-    }
-  })
-  .then((user) => {
-    if (req.params.index - 1 === req.user.listenList.length) {
-      res.redirect(`/listen/${req.params.index - 2}`)
-    } else {
-      res.redirect(`/listen/${req.params.index - 1}`)
-    }
-  })
+      _id
+    }, {
+      $pull: {
+        listenList: itemToRemove
+      }
+    })
+    .then((user) => {
+      if (req.params.index - 1 === req.user.listenList.length) {
+        res.redirect(`/listen/${req.params.index - 2}`)
+      } else {
+        res.redirect(`/listen/${req.params.index - 1}`)
+      }
+    })
 })
 
 
@@ -350,11 +358,14 @@ function constructFeed(id) {
   return Story.find({
     user: id
   }).then(stories => {
-    const promises = stories.map(story =>
-      Album.find({
-        albumBandcampID: story.album
-      })
-    );
+    const promises = stories.map(story => {
+      if (story.type === 'fp') {
+        console.log('ADDED ONE')
+        return Album.find({
+          albumBandcampID: story.album
+        })
+      }
+    });
     return Promise.all(promises);
   });
 }
@@ -374,7 +385,7 @@ function spotifyTestFunc(requestedAlbum) {
             }).find(v => v)
           })
       }).filter(v => v)
-      return Promise.all(promises)
+      const albums = Promise.all(promises)
     })
     .catch((error) => console.log('Spotify Error, line 364', error))
 

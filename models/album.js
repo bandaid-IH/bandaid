@@ -10,10 +10,11 @@ albumSchema = new Schema({
   coverURL: String,
   itemURL: String,
   label: String,
+  buyCount:Number,
   price_obj: {
     price: Number,
     currency: String
-  }
+  },
 });
 
 const Album = mongoose.model("Album", albumSchema);

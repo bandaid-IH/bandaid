@@ -16,6 +16,9 @@
               <% } %>
               </div>
             </div>
+                <p>
+                  <%=albumsList[i][0].buyCount %>
+                </p>
             <div>
               <a href="/add/<%= albumsList[i][0].albumBandcampID %>" class="tag is-link go-to-listen-mode">add to Listen List</a>
             </div>
@@ -35,6 +38,7 @@
                 <% } %>
                 </div>
               </div>
+              <%=albumsList[i+1][0].buyCount %>
               <div>
                 <a href="/add/<%= albumsList[i+1][0].albumBandcampID %>" class="tag is-link go-to-listen-mode">add to Listen List</a>
               </div>
@@ -54,6 +58,7 @@
                   <% } %>
                   </div>
                 </div>
+                <%=albumsList[i+2][0].buyCount %>
                 <div>
                   <a href="/add/<%= albumsList[i+2][0].albumBandcampID %>" class="tag is-link go-to-listen-mode">add to Listen List</a>
                 </div>
