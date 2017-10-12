@@ -174,6 +174,7 @@ router.get("/home", ensureLoggedIn, (req, res, next) => {
           if (story) console.log("Story already exists")
           else {
             newStory.save();
+            console.log("story saved")
             let genre = entry.tags.map(tag => {
               return tag.name;
             });
@@ -220,8 +221,6 @@ router.get("/home", ensureLoggedIn, (req, res, next) => {
 
 //  ====== Listen Mode Page ======
 // ADD INSURE LOGGED IN WHEN DONE WITH TESTINGx
-
-// https://bandcamp.com/EmbeddedPlayer/v=2/album=1167778992/size=large/tracklist=true/artwork=small/
 router.get('/listen/:num', (req, res, next) => {
   let index = req.params.num - 1
   let listenList = [
@@ -272,7 +271,7 @@ router.get('/listen/:num', (req, res, next) => {
 
       // Function to alert the user if the album is on spotify,
       // it is called with a test object for now
-      SpotifyTestFunc({
+      spotifyTestFunc({
           artist: 'lord echo',
           title: 'melodies'
         })
@@ -294,10 +293,23 @@ router.get('/listen/:num', (req, res, next) => {
 })
 
 
+//  ====== Add to Listen Mode ======
+router.get('/add/:id', ensureLoggedIn, (req, res, next) => {
+  let albumBandcampID = req.params.id
+  let userID = req.user._id
+  axios.post(`http://localhost:3000/add/${albumBandcampID}/${userID}`)
+})
+
+router.post('/add/:id/:user', (req, res, next) => {
+  let albumBandcampID = req.params.id
+  let userID = req.params.user
+
+  console.log('inside post', albumBandcampID, '  ', userID)
+})
+
+
 // ====== Fetching User Bandcamp feed ======
-
 // Following is Eduardo's code with fan_id replaced
-
 async function getBandcampFeed(bandcampID) {
   try {
     const a = await axios.post(
@@ -332,28 +344,23 @@ function constructFeed(id) {
 }
 
 
-function SpotifyTestFunc(requestedAlbum) {
-
+function spotifyTestFunc(requestedAlbum) {
   return spotifyApi.searchArtists(requestedAlbum.artist)
     .then((searchResult) => searchResult.body.artists.items)
     .then((artists) => {
       const promises = artists.map(artist => {
-        spotifyApi.getArtistAlbums(artist.id).then((searchResult) => searchResult.body.items)
+        return spotifyApi.getArtistAlbums(artist.id).then((searchResult) => searchResult.body.items)
           .then((albums) => {
-            const promises = albums.map((album) => {
+            return albums.map((album) => {
               if (album.name.toLowerCase() === requestedAlbum.title.toLowerCase()) {
-                console.log('FOUND IT ', album.name)
-                console.log('LINK ', album.external_urls.spotify)
                 return album.external_urls.spotify
               }
-            })
+            }).find( v => v)
           })
-      })
+      }).filter(v => v)
       return Promise.all(promises)
     })
-    .catch((error) => {
-      console.log(error)
-    })
+    .catch((error) => console.log('Spotify Error, line 364', error))
 
 
 }
