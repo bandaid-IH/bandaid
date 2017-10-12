@@ -183,6 +183,7 @@ router.get("/home", ensureLoggedIn, (req, res, next) => {
           albums: albums,
           errorMessage: false
         });
+        console.log(albums[0][0].genres[0], albums[0][0].genres[1]);
       });
     })
     .catch(err => {

@@ -1,30 +1,53 @@
-<h2>Logged in!</h2>
-
-<div class="columns">
-  <div class="column">
-    Title: <%= albums[0][0].title %>
-    <br>
-    Artist: <%= albums[0][0].artist %>
-    <br>
-    <img src="<%=albums[0][0].coverURL%>">
-  </div>
-  <div class="column">
-    Title: <%= albums[1][0].title %>
-    <br>
-    Artist: <%= albums[1][0].artist %>
-    <br>
-    <img src="<%=albums[1][0].coverURL%>">
-  </div>
-  <div class="column">
-    Third column
-  </div>
-  <div class="column">
-    Fourth column
-  </div>
+<div class="navbar">
+Home | Profile | Listen Mode
 </div>
+<section class="container">
 
-<% if (errorMessage) { %>
-  <p class="error-message">
-    <%= errorMessage %>
-  </p>
-<% } %>
+  <div class="columns">
+    <% for (let i= 0; i < 3; i++) { %>
+      <div class="column is-2">
+        <img src="<%=albums[i][0].coverURL%>">
+        <br>
+        <strong><%= albums[i][0].title %></strong>
+        <br>
+        by: <%= albums[i][0].artist %>
+        <br>
+        <div class="tags">
+        <div class="content is-small">tags:
+        <span class="tag is-link"><%= albums[i][0].genres[0] %></span>
+        <% for (let tags=1; tags < 3; tags++) { %>
+          <% if (albums[i][0].genres[tags] !== null) { %>
+          <span class="tag is-link"><%= albums[i][0].genres[tags] %></span>
+          <% } %>
+        <% } %>
+        </div>
+        </div>
+        <a href="#">add to Listen List</a>
+        </div>
+      <% } %>
+  </div>
+  <div class="columns">
+    <% for (let i= 3; i < 6; i++) { %>
+      <div class="column is-2">
+        <img src="<%=albums[i][0].coverURL%>">
+        <strong><%= albums[i][0].title %></strong>
+        <br>
+        by: <%= albums[i][0].artist %>
+        <br>
+        <div class="content is-small">genres:
+          <%= albums[i][0].genres[0] %>,
+          <%= albums[i][0].genres[1] %>,
+          <%= albums[i][0].genres[2] %>
+        </div>
+        <a href="#">add to Listen List</a>
+        </div>
+      <% } %>
+
+  <% if (errorMessage) { %>
+    <p class="error-message">
+      <%= errorMessage %>
+    </p>
+  <% } %>
+
+</div>
+</section>
