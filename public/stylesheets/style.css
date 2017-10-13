@@ -22,7 +22,7 @@ nav {
 
 #container {
   margin: 0px 100px;
-  padding: 10px 30px;
+  padding: 10px 10px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
   background-color: rgb(218, 221, 222);
 }
@@ -67,10 +67,14 @@ a {
   padding-left: 40px;
 }
 
+.auth-container .container .subtitle {
+  margin-top: -5px;
+}
 /* Landing Page Styling */
 
 #landing .signup {
   margin-top: 60px;
+  width: 160px;
 }
 
 #landing .bc-info {
@@ -79,6 +83,7 @@ a {
 
 #landing .login {
   margin-top: 20px;
+  width: 90px;
 }
 
 #landing .how-it-works {
@@ -357,4 +362,9 @@ a {
 .tag.is-light.is-rounded.count{
   height: 20px;
   margin-bottom: 0px;
+}
+
+#landing .subtitle {
+  margin-top: 5px;
+  margin-bottom: 30px; 
 }
