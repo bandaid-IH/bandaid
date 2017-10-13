@@ -240,13 +240,13 @@ router.get("/home", ensureLoggedIn, (req, res, next) => {
 //  ====== Listen Mode Page ======
 // ADD INSURE LOGGED IN WHEN DONE WITH TESTINGx
 router.get('/listen/:num', ensureLoggedIn, (req, res, next) => {
-  let index = req.params.num - 1
-  let listenList = req.user.listenList
-  let currentAlbumID = listenList[index]
   if (req.user.listenList.length === 1) {
     res.render('done')
     return undefined
   }
+  let index = req.params.num - 1
+  let listenList = req.user.listenList
+  let currentAlbumID = listenList[index]
   let album_URL = `https://bandcamp.com/EmbeddedPlayer/v=2/album=${currentAlbumID}/size=large/tracklist=true/artwork=small/`
   axios.get(album_URL)
     .then(function (response) {
