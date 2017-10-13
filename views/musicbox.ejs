@@ -1,7 +1,13 @@
-<div class="musicBoxTitle">
-  <h1>MusicBox</h1>
-  <img src="/images/crate.svg" alt="Crate pic">
-</div>
+<section class="hero">
+  <div class="hero-body musicBoxTitle">
+    <div class="container">
+      <h1 class="title">
+        MusicBox  <img src="/images/crate.svg" alt="Crate pic">
+      </h1>
+    </div>
+  </div>
+</section>
+
 <section class="section is-centered" id="home">
     <% for (let i= 0; i < albumsList.length; i = i + 3) { %>
       <div class="columns">
@@ -21,9 +27,6 @@
                 <% } %>
               </div>
             </div>
-            <div class="tags bottom-tag">
-          <a href="/add/<%= albumsList[i][0].albumBandcampID %>" class="tag is-link go-to-listen-mode">add to Listen List</a><span class="tag is-light is-rounded count"><%=albumsList[i][0].buyCount %> fans bought this</span>
-          </div>
           <% } %>
         </div>
 
@@ -42,9 +45,6 @@
               <% } %>
               </div>
             </div>
-            <div class="tags bottom-tag">
-          <a href="/add/<%= albumsList[i+1][0].albumBandcampID %>" class="tag is-link go-to-listen-mode">add to Listen List</a><span class="tag is-light is-rounded count"><%=albumsList[i+1][0].buyCount %> fans bought this</span>
-          </div>
           <% } %>
         </div>
 
@@ -63,9 +63,6 @@
                 <% } %>
                 </div>
               </div>
-              <div class="tags bottom-tag">
-            <a href="/add/<%= albumsList[i+1][0].albumBandcampID %>" class="tag is-link go-to-listen-mode">add to Listen List</a><span class="tag is-light is-rounded count"><%=albumsList[i+1][0].buyCount %> fans bought this</span>
-            </div>
             <% } %>
           </div>
             </div>

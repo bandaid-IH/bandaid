@@ -1,3 +1,4 @@
+<div class="auth-container">
 <section class="hero">
   <div class="hero-body">
     <div class="container">
@@ -17,13 +18,14 @@
   </p>
 <% } %>
 
-<form action="/signup" method="post" class="form-fields">
+<form action="/signup" method="post" class="form-fields auth-form">
   <div class="field">
     <label class="label" for="username-input"> Username </label>
     <div class="control has-icons-left">
       <input class="input" type="text" name="username" placeholder="Username" autocomplete="off">
       <span class="icon is-small is-left">
-      <i class="fa fa-user"></i>
+        <i class="fa fa-user"></i>
+      </span>
     </div>
   </div>
 
@@ -44,9 +46,10 @@
   </div>
 </form>
 
-<p>
+<p class="auth-fallback">
   Already have an account?
   <a href="/login">
     Log in.
   </a>
 </p>
+</div>

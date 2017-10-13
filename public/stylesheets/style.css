@@ -49,6 +49,24 @@ a {
   font-size: 2rem;
 }
 
+/* Auth pages */
+
+.form-fields {
+  width: 300px;
+}
+
+.auth-fallback {
+  margin: 40px 20px 20px;
+}
+
+.auth-form {
+  margin: 20px 0 0 20px;
+}
+
+.auth-container {
+  padding-left: 40px;
+}
+
 /* Landing Page Styling */
 
 #landing .signup {
@@ -75,11 +93,7 @@ a {
   margin-bottom: 14px;
 }
 
-/* Sign Up Styling */
 
-.form-fields {
-  width: 300px;
-}
 
 
 /* Listen Mode Styling */
@@ -253,14 +267,14 @@ a {
 }
 
 
-/* Styling the Done page */
-#donePage h1 {
+/* Styling the Done and Error page */
+#donePage h1, #errorPage h1 {
   font-size: 4em;
   margin: 50px;
   margin-bottom: 0px;
 }
 
-#donePage h2 {
+#donePage h2, #errorPage h2 {
   font-size: 2.4em;
   margin: 50px 80px;
   margin-top: 0px;
@@ -268,8 +282,13 @@ a {
 
 #donePage img {
   width: 450px;
-  margin-left: 200px;
+  margin-left: 10%;
   margin-top: -20px;
+}
+
+#errorPage img {
+  width: 450px;
+  margin: 20px 0 20px 10%;
 }
 
 /* Styling the MusicBox */
@@ -285,14 +304,6 @@ a {
   margin-left: 8px;
 }
 
-/* Media Queries */
-
-@media (max-width: 768px) {
-  #container {
-    margin: 0px 0px;
-    padding: 0px 0px;
-  }
-}
 
 .navbar {
   border-bottom: 1px solid #04b59b;
@@ -308,4 +319,23 @@ a {
 .navtext {
   font-size: 1.3em;
   margin: 0px 10px;
+}
+
+
+/* Media Queries */
+
+@media (max-width: 768px) {
+  #container {
+    margin: 0px 0px;
+    padding: 0px 0px;
+  }
+  #donePage img, #errorPage img {
+    max-width: 300px;
+  }
+}
+
+@media (max-width: 425px) {
+  #donePage img, #errorPage img {
+    max-width: 200px;
+  }
 }
