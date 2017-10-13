@@ -27,6 +27,11 @@ nav {
   background-color: rgb(218, 221, 222);
 }
 
+.footer {
+  margin-top: 30px;
+  background-color: rgb(225, 232, 232);
+}
+
 a {
   color: #00B7FF;
 }
