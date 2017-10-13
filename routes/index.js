@@ -1,13 +1,19 @@
 const express = require("express");
 const passport = require("passport");
 const bcrypt = require("bcrypt");
-const axios = require("axios");
+const axios_withoutCache = require("axios");
+const wrapper = require('axios-cache-plugin').default
 const qs = require("qs");
 const SpotifyWebApi = require('spotify-web-api-node')
-
 const bcryptSalt = 10;
 const connectEnsure = require("connect-ensure-login");
 const ensureLoggedIn = connectEnsure.ensureLoggedIn("/login");
+
+let axios = wrapper(axios_withoutCache, {
+  maxCacheSize: 75
+})
+
+axios.__addFilter(/.*/)
 
 // ======================================
 //          Importing Data Models
@@ -128,9 +134,7 @@ router.post("/bandcampsetup", ensureLoggedIn, (req, res, next) => {
           bandcampID: id
         },
         error => {
-          setTimeout(() => {
-            res.redirect("/home")
-          }, 100)
+          res.render("setupdone")
         }
       );
     })
@@ -266,7 +270,7 @@ router.get('/listen/:num', ensureLoggedIn, (req, res, next) => {
           spotifyFunc({
             title: currentAlbum[0].title,
             artist: currentAlbum[0].artist
-          }).then( (spotifyLink) => {
+          }).then((spotifyLink) => {
             console.log(spotifyLink)
             res.render('listenPage', {
               index,

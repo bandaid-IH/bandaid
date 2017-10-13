@@ -51,7 +51,17 @@ a {
 
 /* Landing Page Styling */
 
+#landing .signup {
+  margin-top: 60px;
+}
 
+#landing .bc-info {
+  margin-top: 10px;
+}
+
+#landing .login {
+  margin-top: 20px;
+}
 
 /* Sign Up Styling */
 
