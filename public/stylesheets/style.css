@@ -51,8 +51,20 @@ a {
 
 /* Auth pages */
 
+.form-fields {
+  width: 300px;
+}
+
 .auth-fallback {
-  margin: 20px 0px;
+  margin: 40px 20px 20px;
+}
+
+.auth-form {
+  margin: 20px 0 0 20px;
+}
+
+.auth-container {
+  padding-left: 40px;
 }
 
 /* Landing Page Styling */
@@ -81,11 +93,7 @@ a {
   margin-bottom: 14px;
 }
 
-/* Sign Up Styling */
 
-.form-fields {
-  width: 300px;
-}
 
 
 /* Listen Mode Styling */
@@ -274,7 +282,7 @@ a {
 
 #donePage img {
   width: 450px;
-  margin-left: 200px;
+  margin-left: 10%;
   margin-top: -20px;
 }
 
@@ -291,14 +299,6 @@ a {
   margin-left: 8px;
 }
 
-/* Media Queries */
-
-@media (max-width: 768px) {
-  #container {
-    margin: 0px 0px;
-    padding: 0px 0px;
-  }
-}
 
 .navbar {
   border-bottom: 1px solid #04b59b;
@@ -314,4 +314,23 @@ a {
 .navtext {
   font-size: 1.3em;
   margin: 0px 10px;
+}
+
+
+/* Media Queries */
+
+@media (max-width: 768px) {
+  #container {
+    margin: 0px 0px;
+    padding: 0px 0px;
+  }
+  #donePage img {
+    max-width: 300px;
+  }
+}
+
+@media (max-width: 425px) {
+  #donePage img {
+    max-width: 200px;
+  }
 }
