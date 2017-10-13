@@ -28,7 +28,8 @@
       </a>
     </div>
     <br>
-    <%tracks.forEach( (track) => {%>
+    <% if (tracks) { %>
+      <% tracks.forEach( (track) => {%>
       <div class='track'>
         <p><%=track.title%></p>
         <% if (track.file) {%>
@@ -43,6 +44,7 @@
         <%}%>
       </div>
     <%})%>
+    <% } %>
     <% if (spotifyLink) {%>
       <div class="spotify">
         <h1>Psst, did you know?</h1>
