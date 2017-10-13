@@ -341,7 +341,7 @@ a {
 }
 
 .addbutton {
-  height: 22px;
+  height: 20px;
   text-align: center;
   align-items: center;
   display: table-cell;
@@ -350,6 +350,11 @@ a {
 }
 
 .tags.bottom-tag {
-  height: 22px;
+  height: 20px;
   overflow: hidden;
+}
+
+.tag.is-light.is-rounded.count{
+  height: 20px;
+  margin-bottom: 0px;
 }
