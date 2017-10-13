@@ -18,7 +18,7 @@
                 </div>
               </div>
               <div class="tags bottom-tag">
-            <a href="/add/<%= albumsList[i][0].albumBandcampID %>" class="tag is-link go-to-listen-mode">add to Listen List</a><span class="tag is-light is-rounded count"><%=albumsList[i][0].buyCount %> fans bought this</span>
+            <button data-user-id="<%= user %>" data-album-id="<%= albumsList[i][0].albumBandcampID %>" class="button addbutton is-link go-to-listen-mode addtolisten">Add to Listen list</button><span class="tag is-light is-rounded count"><%=albumsList[i][0].buyCount %> fans bought this</span>
             </div>
             <% } %>
           </div>
@@ -39,7 +39,7 @@
                 </div>
               </div>
               <div class="tags bottom-tag">
-            <a href="/add/<%= albumsList[i+1][0].albumBandcampID %>" class="tag is-link go-to-listen-mode">add to Listen List</a><span class="tag is-light is-rounded count"><%=albumsList[i+1][0].buyCount %> fans bought this</span>
+            <button data-user-id="<%= user %>" data-album-id="<%= albumsList[i+1][0].albumBandcampID %>" class="button addbutton is-link go-to-listen-mode addtolisten">Add to Listen list</button><span class="tag is-light is-rounded count"><%=albumsList[i+1][0].buyCount %> fans bought this</span>
             </div>
             <% } %>
           </div>
@@ -60,7 +60,7 @@
                   </div>
                 </div>
                 <div class="tags bottom-tag">
-              <a href="/add/<%= albumsList[i+1][0].albumBandcampID %>" class="tag is-link go-to-listen-mode">add to Listen List</a><span class="tag is-light is-rounded count"><%=albumsList[i+1][0].buyCount %> fans bought this</span>
+              <button data-user-id="<%= user %>" data-album-id="<%= albumsList[i+2][0].albumBandcampID %>" class="button addbutton is-link go-to-listen-mode addtolisten">Add to Listen list</button><span class="tag is-light is-rounded count"><%=albumsList[i+1][0].buyCount %> fans bought this</span>
               </div>
               <% } %>
             </div>
@@ -73,3 +73,25 @@
     <%= errorMessage %>
   </p>
 <% } %>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.16.2/axios.min.js"></script>
+<script>
+  document.querySelectorAll(".addtolisten").forEach(el => {
+    el.addEventListener('click', addToListen)
+  })
+  function addToListen(event) {
+    console.log(event.target.dataset.userId)
+    console.log(event.target.dataset.albumId)
+
+    let userID= event.target.dataset.userId
+    let albumBandcampID = event.target.dataset.albumId
+
+    axios.post(`/add/${albumBandcampID}/${userID}`).then(
+      (result) => {
+        console.log('DONE')
+        console.log(event.target)
+      }
+    ).catch( (error) => {
+      console.log('Error, addToListen, ', error)
+    })
+  }
+</script>

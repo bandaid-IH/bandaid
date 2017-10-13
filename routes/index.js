@@ -10,7 +10,7 @@ const connectEnsure = require("connect-ensure-login");
 const ensureLoggedIn = connectEnsure.ensureLoggedIn("/login");
 
 let axios = wrapper(axios_withoutCache, {
-  maxCacheSize: 75
+  maxCacheSize: 500
 })
 
 axios.__addFilter(/.*/)
@@ -227,6 +227,7 @@ router.get("/home", ensureLoggedIn, (req, res, next) => {
         // console.log(albumsList)
         res.render("home", {
           albumsList: albumsList,
+          user: req.user._id,
           errorMessage: false
         });
       });
@@ -297,23 +298,21 @@ router.get('/listen/:num', ensureLoggedIn, (req, res, next) => {
 
 
 //  ====== Add to Listen Mode ======
-router.get('/add/:id', ensureLoggedIn, (req, res, next) => {
-  let albumBandcampID = req.params.id
-  let userID = req.user._id
-  axios.post(`http://localhost:3000/add/${albumBandcampID}/${userID}`)
-})
-
 router.post('/add/:id/:user', (req, res, next) => {
+  console.log('CALLED')
   let albumBandcampID = req.params.id
   let userID = req.params.user
-
+  console.log(albumBandcampID, userID)
   User.findByIdAndUpdate({
     _id: userID
   }, {
     $addToSet: {
       listenList: albumBandcampID
     }
-  }).catch((error) => {
+  }).then( (result) => {
+    console.log('RESULT', result)
+  })
+  .catch((error) => {
     console.log(error)
   })
 })
