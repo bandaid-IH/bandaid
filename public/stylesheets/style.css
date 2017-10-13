@@ -63,6 +63,18 @@ a {
   margin-top: 20px;
 }
 
+#landing .how-it-works {
+  margin: 40px 0px;
+}
+
+#landing .centered {
+  text-align: center;
+}
+
+#landing .how-it-works-icon {
+  margin-bottom: 14px;
+}
+
 /* Sign Up Styling */
 
 .form-fields {
