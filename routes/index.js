@@ -240,8 +240,13 @@ router.get("/home", ensureLoggedIn, (req, res, next) => {
 //  ====== Listen Mode Page ======
 // ADD INSURE LOGGED IN WHEN DONE WITH TESTINGx
 router.get('/listen/:num', ensureLoggedIn, (req, res, next) => {
-  if (req.user.listenList.length === 1) {
+  let num = Number(req.params.num);
+  if (req.user.listenList.length === 0) {
     res.render('done')
+    return undefined
+  }
+  if (num > req.user.listenList.length) {
+    res.render('errorpage')
     return undefined
   }
   let index = req.params.num - 1
