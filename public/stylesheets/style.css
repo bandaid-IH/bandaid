@@ -208,6 +208,12 @@ a {
   margin-bottom: 5px;
 }
 
+#home .genres div {
+  height: 20px;
+  overflow: hidden;
+  margin-bottom: 6px;
+}
+
 #home .go-to-listen-mode {
   font-size: 0.75rem;
 }
