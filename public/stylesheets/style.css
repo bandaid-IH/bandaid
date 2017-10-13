@@ -49,6 +49,12 @@ a {
   font-size: 2rem;
 }
 
+/* Auth pages */
+
+.auth-fallback {
+  margin: 20px 0px;
+}
+
 /* Landing Page Styling */
 
 #landing .signup {
