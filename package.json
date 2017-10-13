@@ -7,6 +7,7 @@
   },
   "dependencies": {
     "axios": "^0.16.2",
+    "axios-cache-plugin": "^0.1.0",
     "bcrypt": "^1.0.3",
     "body-parser": "~1.15.2",
     "bulma": "^0.6.0",

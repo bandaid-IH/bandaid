@@ -1,13 +1,20 @@
 const express = require("express");
 const passport = require("passport");
 const bcrypt = require("bcrypt");
-const axios = require("axios");
+const axioss = require("axios");
+const wrapper = require('axios-cache-plugin').default
 const qs = require("qs");
 const SpotifyWebApi = require('spotify-web-api-node')
 
 const bcryptSalt = 10;
 const connectEnsure = require("connect-ensure-login");
 const ensureLoggedIn = connectEnsure.ensureLoggedIn("/login");
+
+let axios = wrapper(axioss, {
+  maxCacheSize: 50
+})
+
+axios.__addFilter(/.*/)
 
 // ======================================
 //          Importing Data Models
