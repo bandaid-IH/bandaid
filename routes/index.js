@@ -134,9 +134,7 @@ router.post("/bandcampsetup", ensureLoggedIn, (req, res, next) => {
           bandcampID: id
         },
         error => {
-          setTimeout(() => {
-            res.redirect("/home")
-          }, 100)
+          res.render("setupdone")
         }
       );
     })
@@ -272,7 +270,7 @@ router.get('/listen/:num', ensureLoggedIn, (req, res, next) => {
           spotifyFunc({
             title: currentAlbum[0].title,
             artist: currentAlbum[0].artist
-          }).then( (spotifyLink) => {
+          }).then((spotifyLink) => {
             console.log(spotifyLink)
             res.render('listenPage', {
               index,
