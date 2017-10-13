@@ -274,3 +274,11 @@ a {
   margin-left: 200px;
   opacity: 0.9;
 }
+/* Media Queries */
+
+@media (max-width: 768px) {
+  #container {
+    margin: 0px 0px;
+    padding: 0px 0px;
+  }
+}
