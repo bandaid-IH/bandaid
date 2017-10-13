@@ -267,14 +267,14 @@ a {
 }
 
 
-/* Styling the Done page */
-#donePage h1 {
+/* Styling the Done and Error page */
+#donePage h1, #errorPage h1 {
   font-size: 4em;
   margin: 50px;
   margin-bottom: 0px;
 }
 
-#donePage h2 {
+#donePage h2, #errorPage h2 {
   font-size: 2.4em;
   margin: 50px 80px;
   margin-top: 0px;
@@ -284,6 +284,11 @@ a {
   width: 450px;
   margin-left: 10%;
   margin-top: -20px;
+}
+
+#errorPage img {
+  width: 450px;
+  margin: 20px 0 20px 10%;
 }
 
 /* Styling the MusicBox */
@@ -324,13 +329,13 @@ a {
     margin: 0px 0px;
     padding: 0px 0px;
   }
-  #donePage img {
+  #donePage img, #errorPage img {
     max-width: 300px;
   }
 }
 
 @media (max-width: 425px) {
-  #donePage img {
+  #donePage img, #errorPage img {
     max-width: 200px;
   }
 }
