@@ -282,3 +282,19 @@ a {
     padding: 0px 0px;
   }
 }
+
+.navbar {
+  border-bottom: 1px solid #04b59b;
+}
+
+.navbar-brand a {
+  font-size: 2.3em;
+}
+.navbar-brand a img {
+  max-height: 2em;
+}
+
+.navtext {
+  font-size: 1.3em;
+  margin: 0px 10px;
+}
