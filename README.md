@@ -10,3 +10,5 @@ Bandaid is a tool that lets you connect any Bandcamp username and displayed an e
 2. Save albums to your Listen List
 
 3. Buy your favorite ones later
+
+Bandaid is made by @jadch and @thibautdavoult
