@@ -1,27 +1,29 @@
-<section class="hero">
-  <div class="hero-body">
-    <div class="container">
-      <h1 class="title">
-        Welcome to <%= title %>.
-      </h1>
-    </div>
-  </div>
-</section>
-
-<section class="hero is-info is-medium is-bold">
+<section id="landing" class="hero is-info is-medium">
   <div class="hero-body">
     <div class="has-text-centered">
       <h1 class="title">
-        Music discovery made simple
+        <%= title %>, music discovery made simple
       </h1>
       <h2 class="subtitle">
         <div>
-            <a class="button is-primary is-medium" style="margin-top: 80px" href="/signup"> Sign Up with your Bandcamp account </a>
+            <a class="signup button is-primary is-medium" style="margin-top: 60px" href="/signup"> Sign Up </a>
         </div>
+        <div class="bc-info content is-small" style="margin-top: 10px">Using your Bandcamp account</div>
         <div>
-            <a class="button is-primary is-inverted is-outlined" style="margin-top: 40px" href="/login"> Log In </a>
+            <a class="login button is-primary is-inverted is-outlined" style="margin-top: 20px" href="/login"> Log In </a>
         </div>
       </h2>
     </div>
+  </div>
+</section>
+<section class="hero is-danger is-small">
+  <div class="hero-body">
+    <div class="">
+      <h1 class="title">
+        How it works
+      </h1>
+      <h2 class="subtitle">
+        Bandaid sorts your Bandcamp feed for you and displays unmissable albums.
+      </h2>
   </div>
 </section>
