@@ -19,6 +19,7 @@ nav {
   color: #EDEDED;
 }
 
+
 #container {
   margin: 0px 100px;
   padding: 10px 30px;
@@ -48,6 +49,19 @@ a {
   font-size: 2rem;
 }
 
+/* Landing Page Styling */
+
+#landing .signup {
+  margin-top: 60px;
+}
+
+#landing .bc-info {
+  margin-top: 10px;
+}
+
+#landing .login {
+  margin-top: 20px;
+}
 
 /* Sign Up Styling */
 
@@ -57,7 +71,6 @@ a {
 
 
 /* Listen Mode Styling */
-
 #listen-mode {
   padding-right: 50px;
 }
@@ -151,15 +164,12 @@ a {
   margin-right: 15px
 }
 
-#sucks,
-#rocks,
-#bc {
+#sucks, #rocks, #bc {
   width: 75px;
   height: 75px
 }
 
-#listen-mode .arrow img,
-#listen-mode .arrow a {
+#listen-mode .arrow img, #listen-mode .arrow a {
   width: 50px;
   height: 50px;
 }
@@ -177,8 +187,7 @@ a {
   margin-right: 20px;
 }
 
-#listen-mode .track audio,
-#listen-mode .NA-error-message {
+#listen-mode .track audio, #listen-mode .NA-error-message {
   width: 300px;
   margin: 4px;
   margin-left: auto;
@@ -187,8 +196,6 @@ a {
 #listen-mode .NA-error-message {
   margin-right: 0px;
 }
-
-
 /* Home Styling */
 
 .tag:not(body) {
@@ -235,28 +242,25 @@ a {
 
 
 /* Styling the Done page */
-
-#donePage h1, .donePage h1 {
+#donePage h1 {
   font-size: 4em;
   margin: 50px;
   margin-bottom: 0px;
 }
 
-#donePage h2, .donePage h2 {
+#donePage h2 {
   font-size: 2.4em;
   margin: 50px 80px;
   margin-top: 0px;
 }
 
-#donePage img, .donePage img {
+#donePage img {
   width: 450px;
   margin-left: 200px;
   margin-top: -20px;
 }
 
-
 /* Styling the MusicBox */
-
 .musicBoxTitle {
   font-size: 3em;
   display: flex;
@@ -269,11 +273,6 @@ a {
   margin-left: 8px;
 }
 
-#errorpic {
-  margin: 30px 0px;
-  margin-left: 200px;
-  opacity: 0.9;
-}
 /* Media Queries */
 
 @media (max-width: 768px) {
