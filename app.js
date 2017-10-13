@@ -11,6 +11,7 @@ const session = require("express-session");
 const LocalStrategy = require("passport-local").Strategy
 const mongoose = require('mongoose')
 const bcrypt = require('bcrypt')
+const flash = require("connect-flash");
 
 const app = express();
 
@@ -38,6 +39,7 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(flash());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // APP CONFIG
@@ -75,12 +77,12 @@ passport.use(new LocalStrategy({
     }
     if (!user) {
       return next(null, false, {
-        errorMessage: "Incorrect username"
+        message: "Incorrect username"
       });
     }
     if (!bcrypt.compareSync(password, user.password)) {
       return next(null, false, {
-        errorMessage: "Incorrect password"
+        message: "Incorrect password"
       });
     }
 
