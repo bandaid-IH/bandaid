@@ -1,17 +1,16 @@
 const express = require("express");
 const passport = require("passport");
 const bcrypt = require("bcrypt");
-const axioss = require("axios");
+const axios_withoutCache = require("axios");
 const wrapper = require('axios-cache-plugin').default
 const qs = require("qs");
 const SpotifyWebApi = require('spotify-web-api-node')
-
 const bcryptSalt = 10;
 const connectEnsure = require("connect-ensure-login");
 const ensureLoggedIn = connectEnsure.ensureLoggedIn("/login");
 
-let axios = wrapper(axioss, {
-  maxCacheSize: 50
+let axios = wrapper(axios_withoutCache, {
+  maxCacheSize: 75
 })
 
 axios.__addFilter(/.*/)
