@@ -1,17 +1,18 @@
 <div id='listen-mode' class="columns">
-  <% if (displayArrows.prev ) {%>
   <div class="arrow column is-one-third">
+      <% if (displayArrows.prev ) {%>
     <a href="/listen/<%=index%>">
       <img id='prev' src="/images/previous.svg" alt="Previous album">
     </a>
+    <%}%>
   </div>
-  <%}%>
   <div class="column is-two-thirds is-narrow main">
-    <h2>Listen Mode</h2>
-    <h2>
+    <h1>
       <%=currentAlbum.title %>, By <%=currentAlbum.artist %>
+    </h1>
+    <h2>
+      Album <%=index + 1%> out of <%=listenListLength%> in your Listen List
     </h2>
-    Album <%=index + 1%> out of <%=listenListLength%> in your Listen List
     <div class='cover'>
       <img src="<%=currentAlbum.coverURL%>" alt="Album cover">
     </div>
@@ -42,12 +43,23 @@
         <%}%>
       </div>
     <%})%>
+    <% if (spotifyLink) {%>
+      <div class="spotify">
+        <h1>Psst, did you know?</h1>
+        <section>
+          <p>This album is also available on Spotify</p>
+          <a href="<%=spotifyLink%>" target="_blank">
+            <img src="/images/spotify.png" alt="Spotify Logo">
+          </a>
+        </section>
+      </div>
+    <%}%>
   </div>
-   <% if (displayArrows.next ) { %>
   <div class="arrow column is-one-third is-narrow">
+      <% if (displayArrows.next ) { %>
       <a href="/listen/<%=index + 2%>">
         <img id='next' src="/images/next.svg" alt="Next album">
       </a>
+      <% } %>
   </div>
-  <% } %>
 </div>

@@ -128,7 +128,9 @@ router.post("/bandcampsetup", ensureLoggedIn, (req, res, next) => {
           bandcampID: id
         },
         error => {
-          res.redirect("/home");
+          setTimeout(() => {
+            res.redirect("/home")
+          }, 100)
         }
       );
     })
@@ -160,7 +162,7 @@ function getBandcampID(BCusername) {
 router.get("/home", ensureLoggedIn, (req, res, next) => {
   getBandcampFeed(req.user.bandcampID)
     .then(feed_array => {
-      console.log(feed_array)
+      // console.log(feed_array)
       // console.log(feed_array[3])
       feed_array.forEach(entry => {
         console.log('CHECK ', entry.story_type, entry.story_type === 'fp')
@@ -218,7 +220,7 @@ router.get("/home", ensureLoggedIn, (req, res, next) => {
         let albumsList = albums.sort((a, b) => {
           return b[0].buyCount - a[0].buyCount
         })
-        console.log(albumsList)
+        // console.log(albumsList)
         res.render("home", {
           albumsList: albumsList,
           errorMessage: false
@@ -237,12 +239,15 @@ router.get('/listen/:num', ensureLoggedIn, (req, res, next) => {
   let index = req.params.num - 1
   let listenList = req.user.listenList
   let currentAlbumID = listenList[index]
+  if (req.user.listenList.length === 1) {
+    res.render('done')
+    return undefined
+  }
   let album_URL = `https://bandcamp.com/EmbeddedPlayer/v=2/album=${currentAlbumID}/size=large/tracklist=true/artwork=small/`
   axios.get(album_URL)
     .then(function (response) {
       let HTML = response.data
       let musicPlayerData = JSON.parse(HTML.match(/var\s*playerdata\s*=\s*(.+);/)[1]);
-      console.log(musicPlayerData.tracks)
 
       // This part either displays or not the arrows, depending on the user's postion
       // in the Listen List
@@ -257,19 +262,26 @@ router.get('/listen/:num', ensureLoggedIn, (req, res, next) => {
           albumBandcampID: currentAlbumID
         })
         .then((currentAlbum) => {
-          res.render('listenPage', {
-            index,
-            currentAlbum: currentAlbum[0],
-            listenListLength: listenList.length,
-            tracks: musicPlayerData.tracks,
-            displayArrows,
+          console.log(currentAlbum[0])
+          spotifyFunc({
+            title: currentAlbum[0].title,
+            artist: currentAlbum[0].artist
+          }).then( (spotifyLink) => {
+            console.log(spotifyLink)
+            res.render('listenPage', {
+              index,
+              currentAlbum: currentAlbum[0],
+              listenListLength: listenList.length,
+              tracks: musicPlayerData.tracks,
+              displayArrows,
+              spotifyLink: spotifyLink[0]
+            })
           })
         })
     })
     .catch((error) => {
       console.log(error)
     })
-
 })
 
 
@@ -307,7 +319,9 @@ router.get('/listen/:index/sucks', ensureLoggedIn, (req, res, next) => {
       listenList: itemToRemove
     }
   }).then((user) => {
-    if (req.params.index - 1 === req.user.listenList.length) {
+    if (req.user.listenList.length === 1) {
+      res.render('done')
+    } else if (req.params.index - 1 === req.user.listenList.length) {
       res.redirect(`/listen/${req.params.index - 2}`)
     } else {
       res.redirect(`/listen/${req.params.index - 1}`)
@@ -341,7 +355,7 @@ router.get('/musicbox', ensureLoggedIn, (req, res, next) => {
     _id
   }).then((user) => {
     let musicList = user.musicBox
-    const promises = musicList.map( albumID => {
+    const promises = musicList.map(albumID => {
       return Album.find({
         albumBandcampID: albumID
       })
@@ -397,7 +411,7 @@ function constructFeed(id) {
 }
 
 
-function spotifyTestFunc(requestedAlbum) {
+function spotifyFunc(requestedAlbum) {
   return spotifyApi.searchArtists(requestedAlbum.artist)
     .then((searchResult) => searchResult.body.artists.items)
     .then((artists) => {
@@ -411,7 +425,7 @@ function spotifyTestFunc(requestedAlbum) {
             }).find(v => v)
           })
       }).filter(v => v)
-      const albums = Promise.all(promises)
+      return Promise.all(promises)
     })
     .catch((error) => console.log('Spotify Error, line 364', error))
 
