@@ -45,8 +45,13 @@
     <%})%>
     <% if (spotifyLink) {%>
       <div class="spotify">
-        <h1>SPOTIFY</h1>
-        <p><%=spotifyLink%></p>
+        <h1>Psst, did you know?</h1>
+        <section>
+          <p>This album is also available on Spotify</p>
+          <a href="<%=spotifyLink%>" target="_blank">
+            <img src="/images/spotify.png" alt="Spotify Logo">
+          </a>
+        </section>
       </div>
     <%}%>
   </div>
