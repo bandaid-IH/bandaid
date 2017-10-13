@@ -272,11 +272,8 @@ router.get('/listen/:num', ensureLoggedIn, (req, res, next) => {
             artist: currentAlbum[0].artist
           }).then((spotifyLink) => {
             console.log(spotifyLink)
-            if (musicPlayerData) {
-                let tracks = musicPlayerData.tracks
-            } else {
-              let tracks = undefined;
-            }
+            let tracks
+            if (musicPlayerData) tracks = musicPlayerData.tracks
             res.render('listenPage', {
               index,
               currentAlbum: currentAlbum[0],
