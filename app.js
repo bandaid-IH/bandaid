@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require('express');
 const path = require('path');
 const favicon = require('serve-favicon');
@@ -20,7 +21,7 @@ const User = require('./models/user')
 const index = require('./routes/index')
 
 // Mongoose Configuration
-mongoose.connect("mongodb://localhost/bandaid")
+mongoose.connect(process.env.MONGODB_URI)
 
 
 
