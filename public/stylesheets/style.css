@@ -339,3 +339,17 @@ a {
     max-width: 200px;
   }
 }
+
+.addbutton {
+  height: 22px;
+  text-align: center;
+  align-items: center;
+  display: table-cell;
+  vertical-align: middle;
+  padding: 0px 5px;
+}
+
+.tags.bottom-tag {
+  height: 22px;
+  overflow: hidden;
+}

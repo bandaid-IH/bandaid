@@ -10,7 +10,7 @@ const connectEnsure = require("connect-ensure-login");
 const ensureLoggedIn = connectEnsure.ensureLoggedIn("/login");
 
 let axios = wrapper(axios_withoutCache, {
-  maxCacheSize: 75
+  maxCacheSize: 500
 })
 
 axios.__addFilter(/.*/)
