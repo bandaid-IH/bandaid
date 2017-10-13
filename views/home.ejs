@@ -18,7 +18,12 @@
                 </div>
               </div>
               <div class="tags bottom-tag">
-            <button data-user-id="<%= user %>" data-album-id="<%= albumsList[i][0].albumBandcampID %>" class="button addbutton is-link go-to-listen-mode addtolisten">Add to Listen list</button><span class="tag is-light is-rounded count"><%=albumsList[i][0].buyCount %> fans bought this</span>
+            <%if (listenList.indexOf(albumsList[i][0].albumBandcampID) != -1) {%>
+                <button data-user-id="<%= user %>" data-album-id="<%= albumsList[i][0].albumBandcampID %>" disabled class="button addbutton is-primary go-to-listen-mode addtolisten">Added to Listen list</button>
+            <%} else {%>
+              <button data-user-id="<%= user %>" data-album-id="<%= albumsList[i][0].albumBandcampID %>" class="button addbutton is-link go-to-listen-mode addtolisten">Add to Listen list</button>
+          <%}%>
+            <span class="tag is-light is-rounded count"><%=albumsList[i][0].buyCount %> fans bought this</span>
             </div>
             <% } %>
           </div>
@@ -39,7 +44,13 @@
                 </div>
               </div>
               <div class="tags bottom-tag">
-            <button data-user-id="<%= user %>" data-album-id="<%= albumsList[i+1][0].albumBandcampID %>" class="button addbutton is-link go-to-listen-mode addtolisten">Add to Listen list</button><span class="tag is-light is-rounded count"><%=albumsList[i+1][0].buyCount %> fans bought this</span>
+                <%if (listenList.indexOf(albumsList[i+1][0].albumBandcampID) != -1) {%>
+                  <button data-user-id="<%= user %>" data-album-id="<%= albumsList[i+1][0].albumBandcampID %>" disabled class="button addbutton is-primary go-to-listen-mode addtolisten">Added to Listen list</button>
+              <%} else {%>
+                <button data-user-id="<%= user %>" data-album-id="<%= albumsList[i+1][0].albumBandcampID %>" class="button addbutton is-link go-to-listen-mode addtolisten">Add to Listen list</button>
+            <%}%>
+
+            <span class="tag is-light is-rounded count"><%=albumsList[i+1][0].buyCount %> fans bought this</span>
             </div>
             <% } %>
           </div>
@@ -60,7 +71,12 @@
                   </div>
                 </div>
                 <div class="tags bottom-tag">
-              <button data-user-id="<%= user %>" data-album-id="<%= albumsList[i+2][0].albumBandcampID %>" class="button addbutton is-link go-to-listen-mode addtolisten">Add to Listen list</button><span class="tag is-light is-rounded count"><%=albumsList[i+1][0].buyCount %> fans bought this</span>
+                    <%if (listenList.indexOf(albumsList[i+2][0].albumBandcampID) != -1) {%>
+                      <button data-user-id="<%= user %>" data-album-id="<%= albumsList[i+2][0].albumBandcampID %>" disabled class="button addbutton is-primary go-to-listen-mode addtolisten">Added to Listen list</button>
+                  <%} else {%>
+                    <button data-user-id="<%= user %>" data-album-id="<%= albumsList[i+2][0].albumBandcampID %>" class="button addbutton is-link go-to-listen-mode addtolisten">Add to Listen list</button>
+                <%}%>
+              <span class="tag is-light is-rounded count"><%=albumsList[i+1][0].buyCount %> fans bought this</span>
               </div>
               <% } %>
             </div>
@@ -79,16 +95,14 @@
     el.addEventListener('click', addToListen)
   })
   function addToListen(event) {
-    console.log(event.target.dataset.userId)
-    console.log(event.target.dataset.albumId)
-
     let userID= event.target.dataset.userId
     let albumBandcampID = event.target.dataset.albumId
 
     axios.post(`/add/${albumBandcampID}/${userID}`).then(
       (result) => {
-        console.log('DONE')
-        console.log(event.target)
+        event.target.classList.remove('is-link')
+        event.target.classList.add('is-primary')
+        event.target.setAttribute('disabled', true)
       }
     ).catch( (error) => {
       console.log('Error, addToListen, ', error)

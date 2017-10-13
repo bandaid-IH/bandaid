@@ -224,12 +224,19 @@ router.get("/home", ensureLoggedIn, (req, res, next) => {
         let albumsList = albums.sort((a, b) => {
           return b[0].buyCount - a[0].buyCount
         })
-        // console.log(albumsList)
-        res.render("home", {
-          albumsList: albumsList,
-          user: req.user._id,
-          errorMessage: false
-        });
+        User.findOne({
+          _id: req.user._id
+        }).then( (user) => {
+          let listenList = user.listenList
+          console.log('LIsteN LIST ', listenList)
+          // console.log(albumsList)
+          res.render("home", {
+            albumsList: albumsList,
+            listenList,
+            user: req.user._id,
+            errorMessage: false
+          });
+        })
       });
     })
     .catch(err => {
@@ -299,21 +306,20 @@ router.get('/listen/:num', ensureLoggedIn, (req, res, next) => {
 
 //  ====== Add to Listen Mode ======
 router.post('/add/:id/:user', (req, res, next) => {
-  console.log('CALLED')
   let albumBandcampID = req.params.id
   let userID = req.params.user
-  console.log(albumBandcampID, userID)
-  User.findByIdAndUpdate({
+  return User.findByIdAndUpdate({
     _id: userID
   }, {
     $addToSet: {
       listenList: albumBandcampID
     }
   }).then( (result) => {
-    console.log('RESULT', result)
+    res.json(result)
   })
   .catch((error) => {
-    console.log(error)
+    next(err)
+    console.log('ERROR, ADD TO LISTEN LIST ', error)
   })
 })
 
